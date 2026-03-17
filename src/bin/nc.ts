@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+import { Command } from "commander";
+import { init } from "../commands/init.js";
+import { push } from "../commands/push.js";
+import { sync } from "../commands/sync.js";
+import { swap } from "../commands/swap.js";
+import { undo } from "../commands/undo.js";
+import { status } from "../commands/status.js";
+import { review } from "../commands/review.js";
+import { brand, versionTag } from "../ui/brand.js";
+
+const program = new Command();
+
+program
+  .name("nc")
+  .description("☠ noconflict — murder your merge conflicts.")
+  .version("0.1.0");
+
+program
+  .command("init")
+  .description("set up noconflict in this repo")
+  .action(init);
+
+program
+  .command("push")
+  .description("push without conflict")
+  .allowUnknownOption()
+  .action(async (_, cmd) => {
+    await push(cmd.args);
+  });
+
+program
+  .command("sync")
+  .description("pull + rebase without the pain")
+  .action(sync);
+
+program
+  .command("swap <branch>")
+  .description("switch branches without losing work")
+  .action(swap);
+
+program
+  .command("undo")
+  .description("undo last mistake")
+  .action(undo);
+
+program
+  .command("status")
+  .description("what's going on, in english")
+  .option("--week", "weekly impact summary")
+  .option("--trial", "full trial report")
+  .action(status);
+
+program
+  .command("review")
+  .description("pre-push sanity check")
+  .action(review);
+
+program
+  .command("activate")
+  .description("go pro — $29/mo")
+  .action(async () => {
+    console.log("");
+    console.log(brand.SKULL("  ☠") + brand.BONE.bold("  NOCONFLICT PRO — $29/mo"));
+    console.log("");
+    console.log(brand.BONE("  → https://noconflict.dev/pro"));
+    console.log("");
+    console.log(brand.SHADOW("  we handle the api key. you just kill."));
+    console.log("");
+  });
+
+program.parse();

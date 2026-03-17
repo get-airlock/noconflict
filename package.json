@@ -1,0 +1,46 @@
+{
+  "name": "noconflict",
+  "version": "0.1.0",
+  "description": "nc push → done.",
+  "type": "module",
+  "bin": {
+    "nc": "./dist/bin/nc.js"
+  },
+  "scripts": {
+    "build": "tsup src/bin/nc.ts --format esm --out-dir dist/bin --dts",
+    "dev": "tsx src/bin/nc.ts",
+    "lint": "eslint src/",
+    "test": "vitest"
+  },
+  "keywords": [
+    "git",
+    "merge",
+    "conflict",
+    "cli",
+    "developer-tools"
+  ],
+  "author": "noconflict",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "conf": "^13.0.1",
+    "ink": "^5.1.0",
+    "ink-text-input": "^6.0.0",
+    "openai": "^4.73.0",
+    "ora": "^8.1.1",
+    "react": "^18.3.1",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
