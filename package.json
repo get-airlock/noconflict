@@ -19,8 +19,16 @@
     "cli",
     "developer-tools"
   ],
-  "author": "noconflict",
+  "author": "Airlock Labs <hello@getairlock.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/get-airlock/noconflict.git"
+  },
+  "homepage": "https://noconflict-production.up.railway.app",
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
