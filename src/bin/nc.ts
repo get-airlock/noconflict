@@ -12,6 +12,7 @@ import { check } from "../commands/check.js";
 import { fix } from "../commands/fix.js";
 import { env } from "../commands/env.js";
 import { ship } from "../commands/ship.js";
+import { health } from "../commands/health.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -85,6 +86,11 @@ program
   .description("deploy to production")
   .option("--force", "skip readiness check")
   .action(ship);
+
+program
+  .command("health")
+  .description("production health status")
+  .action(health);
 
 program
   .command("activate")
