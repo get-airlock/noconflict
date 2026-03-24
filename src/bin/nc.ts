@@ -13,6 +13,7 @@ import { fix } from "../commands/fix.js";
 import { env } from "../commands/env.js";
 import { ship } from "../commands/ship.js";
 import { health } from "../commands/health.js";
+import { logs } from "../commands/logs.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -91,6 +92,12 @@ program
   .command("health")
   .description("production health status")
   .action(health);
+
+program
+  .command("logs")
+  .description("tail production logs")
+  .option("--lines <n>", "number of lines", "50")
+  .action(logs);
 
 program
   .command("activate")
