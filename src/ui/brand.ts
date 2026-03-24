@@ -64,5 +64,5 @@ export function line(): void {
 
 // ─── Version Tag ────────────────────────────────────────
 export function versionTag(): string {
-  return `${SKULL("☠")} ${SHADOW("noconflict v0.1.0")}`;
+  return `${SKULL("☠")} ${SHADOW("noconflict v0.2.0")}`;
 }

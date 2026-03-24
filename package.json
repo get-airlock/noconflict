@@ -1,7 +1,7 @@
 {
   "name": "noconflict",
-  "version": "0.1.0",
-  "description": "nc push → done.",
+  "version": "0.2.0",
+  "description": "nc push → merged. → deployed. → healthy.",
   "type": "module",
   "bin": {
     "nc": "./dist/bin/nc.js"
@@ -16,6 +16,8 @@
     "git",
     "merge",
     "conflict",
+    "deploy",
+    "ship",
     "cli",
     "developer-tools"
   ],
