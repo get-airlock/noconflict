@@ -9,6 +9,7 @@ import { undo } from "../commands/undo.js";
 import { status } from "../commands/status.js";
 import { review } from "../commands/review.js";
 import { check } from "../commands/check.js";
+import { fix } from "../commands/fix.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -62,6 +63,11 @@ program
   .command("check")
   .description("readiness scan — are you ship-ready?")
   .action(check);
+
+program
+  .command("fix")
+  .description("auto-fix what nc check found")
+  .action(fix);
 
 program
   .command("activate")
