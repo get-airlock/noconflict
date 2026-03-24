@@ -8,6 +8,7 @@ import { swap } from "../commands/swap.js";
 import { undo } from "../commands/undo.js";
 import { status } from "../commands/status.js";
 import { review } from "../commands/review.js";
+import { check } from "../commands/check.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -56,6 +57,11 @@ program
   .command("review")
   .description("pre-push sanity check")
   .action(review);
+
+program
+  .command("check")
+  .description("readiness scan — are you ship-ready?")
+  .action(check);
 
 program
   .command("activate")
