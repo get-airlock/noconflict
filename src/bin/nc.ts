@@ -10,6 +10,7 @@ import { status } from "../commands/status.js";
 import { review } from "../commands/review.js";
 import { check } from "../commands/check.js";
 import { fix } from "../commands/fix.js";
+import { env } from "../commands/env.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -68,6 +69,15 @@ program
   .command("fix")
   .description("auto-fix what nc check found")
   .action(fix);
+
+program
+  .command("env")
+  .description("deploy platform config")
+  .option("--platform <name>", "set platform manually")
+  .option("--url <url>", "set production URL")
+  .option("--health <endpoint>", "set health check endpoint")
+  .option("--reset", "reset all deploy config")
+  .action(env);
 
 program
   .command("activate")
