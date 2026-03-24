@@ -15,6 +15,7 @@ import { ship } from "../commands/ship.js";
 import { health } from "../commands/health.js";
 import { logs } from "../commands/logs.js";
 import { rollback } from "../commands/rollback.js";
+import { preview } from "../commands/preview.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -104,6 +105,11 @@ program
   .command("rollback")
   .description("roll back to last healthy deploy")
   .action(rollback);
+
+program
+  .command("preview")
+  .description("spin up preview environment")
+  .action(preview);
 
 program
   .command("activate")
