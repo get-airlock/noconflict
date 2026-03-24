@@ -1,4 +1,5 @@
 import Conf from "conf";
+import type { Platform } from "../ship/types.js";
 
 export interface NcIdentity {
   credentialId: string;
@@ -18,6 +19,17 @@ export interface NcConfig {
     smart: string;
   };
   identity: NcIdentity | null;
+  ship: {
+    platform: Platform | null;
+    detectedBy: "config-file" | "convention" | "manual" | null;
+    projectName: string | null;
+    deployCommand: string | null;
+    previewCommand: string | null;
+    healthEndpoint: string | null;
+    productionUrl: string | null;
+    lastDeploy: string | null;
+    deployHistory: string;
+  };
 }
 
 const defaults: NcConfig = {
@@ -31,6 +43,17 @@ const defaults: NcConfig = {
     smart: "anthropic/claude-sonnet-4-6",
   },
   identity: null,
+  ship: {
+    platform: null,
+    detectedBy: null,
+    projectName: null,
+    deployCommand: null,
+    previewCommand: null,
+    healthEndpoint: null,
+    productionUrl: null,
+    lastDeploy: null,
+    deployHistory: ".noconflict/deploys.json",
+  },
 };
 
 export const config = new Conf<NcConfig>({

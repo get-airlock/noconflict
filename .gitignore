@@ -3,3 +3,4 @@ dist/
 .nc/
 *.tsbuildinfo
 .env
+.noconflict
