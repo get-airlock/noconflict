@@ -14,6 +14,7 @@ import { env } from "../commands/env.js";
 import { ship } from "../commands/ship.js";
 import { health } from "../commands/health.js";
 import { logs } from "../commands/logs.js";
+import { rollback } from "../commands/rollback.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -98,6 +99,11 @@ program
   .description("tail production logs")
   .option("--lines <n>", "number of lines", "50")
   .action(logs);
+
+program
+  .command("rollback")
+  .description("roll back to last healthy deploy")
+  .action(rollback);
 
 program
   .command("activate")
