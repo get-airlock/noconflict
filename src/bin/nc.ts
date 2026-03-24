@@ -11,6 +11,7 @@ import { review } from "../commands/review.js";
 import { check } from "../commands/check.js";
 import { fix } from "../commands/fix.js";
 import { env } from "../commands/env.js";
+import { ship } from "../commands/ship.js";
 import { brand, versionTag } from "../ui/brand.js";
 
 const program = new Command();
@@ -78,6 +79,12 @@ program
   .option("--health <endpoint>", "set health check endpoint")
   .option("--reset", "reset all deploy config")
   .action(env);
+
+program
+  .command("ship")
+  .description("deploy to production")
+  .option("--force", "skip readiness check")
+  .action(ship);
 
 program
   .command("activate")
