@@ -2,7 +2,6 @@ import open from "open";
 import ora from "ora";
 import { createInterface } from "node:readline";
 import {
-  getStripe,
   PRO_PRICE_ID,
   CHECKOUT_SUCCESS_URL,
   CHECKOUT_CANCEL_URL,
@@ -52,22 +51,29 @@ export async function upgrade(): Promise<void> {
       spinner: "dots",
     }).start();
 
-    const valid = await activateFromCustomerId(existingKey);
-    spinner.stop();
+    try {
+      const valid = await activateFromCustomerId(existingKey);
+      spinner.stop();
 
-    if (valid) {
-      receipt("subscription reactivated. welcome back.");
+      if (valid) {
+        receipt("subscription reactivated. welcome back.");
+        console.log("");
+        return;
+      }
+    } catch {
+      spinner.stop();
+      dim("couldn't reach payment server. try again when online.");
       console.log("");
-      return;
     }
   }
 
-  // Option 1: Open Stripe Checkout (if price ID is configured)
-  if (PRO_PRICE_ID) {
+  // Option 1: Open Stripe Checkout (if Stripe is fully configured)
+  if (PRO_PRICE_ID && process.env.STRIPE_SECRET_KEY) {
     console.log(brand.BONE("  opening checkout..."));
     console.log("");
 
     try {
+      const { getStripe } = await import("../billing/stripe.js");
       const stripe = getStripe();
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
@@ -84,6 +90,7 @@ export async function upgrade(): Promise<void> {
       warn(
         `couldn't create checkout: ${err instanceof Error ? err.message : err}`
       );
+      dim("subscribe manually at noconflict.dev/pro instead.");
     }
 
     console.log("");
@@ -91,7 +98,7 @@ export async function upgrade(): Promise<void> {
       brand.BONE("  after payment, enter your customer ID to activate:")
     );
   } else {
-    // Option 2: Manual activation (price not configured yet)
+    // Manual activation (Stripe not configured locally)
     console.log(
       brand.BONE("  subscribe at ") +
         brand.ACID.bold("https://noconflict.dev/pro")
@@ -108,6 +115,11 @@ export async function upgrade(): Promise<void> {
   const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
+  });
+
+  // Handle EOF (Ctrl+D) gracefully
+  rl.on("close", () => {
+    // If closed without input, exit cleanly
   });
 
   rl.question(brand.SHADOW("  customer ID (cus_...): "), async (input) => {
@@ -131,17 +143,24 @@ export async function upgrade(): Promise<void> {
       spinner: "dots",
     }).start();
 
-    const valid = await activateFromCustomerId(trimmed);
-    spinner.stop();
+    try {
+      const valid = await activateFromCustomerId(trimmed);
+      spinner.stop();
 
-    if (valid) {
+      if (valid) {
+        console.log("");
+        receipt("you're Pro now. every command unlocked.");
+        dim("run nc status to confirm.");
+      } else {
+        console.log("");
+        warn("no active subscription found for that ID.");
+        dim("make sure you've completed payment at noconflict.dev/pro");
+      }
+    } catch {
+      spinner.stop();
       console.log("");
-      receipt("you're Pro now. every command unlocked.");
-      dim("run nc status to confirm.");
-    } else {
-      console.log("");
-      warn("no active subscription found for that ID.");
-      dim("make sure you've completed payment at noconflict.dev/pro");
+      warn("couldn't verify — are you online?");
+      dim("try again when you have an internet connection.");
     }
     console.log("");
   });

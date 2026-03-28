@@ -1,5 +1,5 @@
 import { isTrialActive, config } from "../config/store.js";
-import { getPlan, validateLicense } from "./license.js";
+import { getPlan, validateLicense, wasLastValidationOffline } from "./license.js";
 import { brand, warn, dim } from "../ui/brand.js";
 
 /**
@@ -19,7 +19,12 @@ export async function requirePro(): Promise<void> {
   if (getPlan() === "pro") {
     // Validate in background if stale, but don't block
     const valid = await validateLicense();
-    if (valid) return;
+    if (valid) {
+      if (wasLastValidationOffline()) {
+        dim("offline mode — using cached license (7-day grace).");
+      }
+      return;
+    }
   }
 
   // Not on trial, not pro — block
@@ -40,12 +45,12 @@ export async function requirePro(): Promise<void> {
 // ─── Fix gate — free users get 3, then Pro ─────────────
 
 function getFixCount(): number {
-  return (config.get("billing.fixCount" as never) as number) ?? 0;
+  return config.get("billing").fixCount ?? 0;
 }
 
 function incrementFixCount(): void {
-  const count = getFixCount() + 1;
-  config.set("billing.fixCount" as never, count as never);
+  const billing = config.get("billing");
+  config.set("billing", { ...billing, fixCount: (billing.fixCount ?? 0) + 1 });
 }
 
 /**

@@ -65,25 +65,35 @@ Respond with JSON:
   "estimatedHours": 0.5
 }`;
 
-  const resp = await client.chat.completions.create({
-    model,
-    messages: [{ role: "user", content: prompt }],
-    response_format: { type: "json_object" },
-    max_tokens: 500,
-    temperature: 0.2,
-  });
-
-  const text = resp.choices[0]?.message?.content ?? "{}";
-
   try {
-    return JSON.parse(text) as ForgeResponse;
-  } catch {
-    return {
-      explanation: "couldn't parse the conflict. take a look manually.",
-      canAutoResolve: false,
-      resolution: null,
-      estimatedHours: severity.estimatedMinutes / 60,
-    };
+    const resp = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" },
+      max_tokens: 500,
+      temperature: 0.2,
+    });
+
+    const text = resp.choices[0]?.message?.content ?? "{}";
+
+    try {
+      return JSON.parse(text) as ForgeResponse;
+    } catch {
+      return {
+        explanation: "couldn't parse the conflict. take a look manually.",
+        canAutoResolve: false,
+        resolution: null,
+        estimatedHours: severity.estimatedMinutes / 60,
+      };
+    }
+  } catch (err: unknown) {
+    const status = (err as { status?: number }).status;
+    if (status === 401 || status === 403) {
+      throw new Error("api key invalid or expired. run nc init to set a new key.");
+    }
+    throw new Error(
+      `api error: ${err instanceof Error ? err.message : "unknown"}. check your connection.`
+    );
   }
 }
 

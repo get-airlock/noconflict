@@ -19,13 +19,17 @@ import { preview } from "../commands/preview.js";
 import { upgrade } from "../commands/upgrade.js";
 import { brand, versionTag } from "../ui/brand.js";
 import { requirePro, requireFixOrPro } from "../billing/gate.js";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const pkg = require("../../package.json") as { version: string };
 
 const program = new Command();
 
 program
   .name("nc")
   .description("☠ noconflict — murder your merge conflicts.")
-  .version("0.2.0");
+  .version(pkg.version);
 
 program
   .command("init")

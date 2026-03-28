@@ -65,6 +65,27 @@ export async function deploy(
     );
   }
 
+  // Validate platform CLI is installed before attempting deploy
+  if (platform && platform !== "unknown") {
+    const cliCheck: Record<string, string> = {
+      vercel: "vercel",
+      railway: "railway",
+      fly: "flyctl",
+      netlify: "netlify",
+      cloudflare: "wrangler",
+    };
+    const cli = cliCheck[platform];
+    if (cli) {
+      try {
+        execSync(`which ${cli}`, { stdio: "ignore" });
+      } catch {
+        throw new Error(
+          `${platform} CLI ('${cli}') not found. install it first: https://${platform === "fly" ? "fly.io" : `${platform}.com`}/docs/cli`
+        );
+      }
+    }
+  }
+
   // Get git info
   const git = await getGit(cwd);
   const branch = await getCurrentBranch(git);

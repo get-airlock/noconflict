@@ -8,6 +8,14 @@ export interface NcIdentity {
   createdAt: string;
 }
 
+export interface NcBilling {
+  licenseKey: string;
+  plan: "free" | "pro";
+  validatedAt: string;
+  expiresAt: string;
+  fixCount: number;
+}
+
 export interface NcConfig {
   apiKey: string;
   provider: "openrouter";
@@ -19,6 +27,7 @@ export interface NcConfig {
     smart: string;
   };
   identity: NcIdentity | null;
+  billing: NcBilling;
   ship: {
     platform: Platform | null;
     detectedBy: "config-file" | "convention" | "manual" | null;
@@ -43,6 +52,13 @@ const defaults: NcConfig = {
     smart: "anthropic/claude-sonnet-4-6",
   },
   identity: null,
+  billing: {
+    licenseKey: "",
+    plan: "free",
+    validatedAt: "",
+    expiresAt: "",
+    fixCount: 0,
+  },
   ship: {
     platform: null,
     detectedBy: null,

@@ -11,7 +11,11 @@ const rl = createInterface({
 });
 
 function ask(question: string): Promise<string> {
-  return new Promise((resolve) => rl.question(question, resolve));
+  return new Promise((resolve) => {
+    rl.question(question, resolve);
+    // Handle EOF (Ctrl+D) — resolve with empty string
+    rl.once("close", () => resolve(""));
+  });
 }
 
 export async function init(): Promise<void> {

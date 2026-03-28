@@ -89,10 +89,9 @@ export async function push(args: string[] = []): Promise<void> {
         estimatedMinutesSaved: severity.estimatedMinutes,
       });
 
-      // weekly nudge (every 7th push or Friday)
+      // weekly nudge
       const stats = weeklyStats();
-      const dayOfWeek = new Date().getDay();
-      if (dayOfWeek === 5 && stats.conflictsAvoided > 0) {
+      if (stats.conflictsAvoided > 0 && stats.pushes % 7 === 0) {
         dim(`this week: ${stats.conflictsAvoided} conflicts murdered, ~${(stats.minutesSaved / 60).toFixed(1)} hrs reclaimed.`);
       }
 

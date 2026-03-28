@@ -1,4 +1,8 @@
 import chalk from "chalk";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const pkg = require("../../package.json") as { version: string };
 
 // ─── Color Palette ──────────────────────────────────────
 const SKULL = chalk.hex("#FF3333");      // blood red
@@ -64,5 +68,5 @@ export function line(): void {
 
 // ─── Version Tag ────────────────────────────────────────
 export function versionTag(): string {
-  return `${SKULL("☠")} ${SHADOW("noconflict v0.2.0")}`;
+  return `${SKULL("☠")} ${SHADOW(`noconflict v${pkg.version}`)}`;
 }
