@@ -1,0 +1,11 @@
+{
+  "total_scans": 150,
+  "total_issues_found": 684,
+  "repos_scanned": 50,
+  "last_updated": "2026-03-27T18:20:52.177708+00:00",
+  "grade_distribution": {
+    "A+": 45,
+    "A": 5
+  },
+  "average_score": 96.8
+}

@@ -24,7 +24,7 @@ export async function push(args: string[] = []): Promise<void> {
   if (!isTrialActive()) {
     console.log("");
     dim("trial's over. nc push → git push now.");
-    console.log(brand.BONE("  want your weapon back? $29/mo → nc activate"));
+    console.log(brand.BONE("  want your weapon back? $29/mo → nc upgrade"));
     console.log("");
     // fall through to regular git push
     const git = await getGit();

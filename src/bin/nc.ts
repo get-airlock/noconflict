@@ -16,7 +16,9 @@ import { health } from "../commands/health.js";
 import { logs } from "../commands/logs.js";
 import { rollback } from "../commands/rollback.js";
 import { preview } from "../commands/preview.js";
+import { upgrade } from "../commands/upgrade.js";
 import { brand, versionTag } from "../ui/brand.js";
+import { requirePro, requireFixOrPro } from "../billing/gate.js";
 
 const program = new Command();
 
@@ -30,29 +32,49 @@ program
   .description("set up noconflict in this repo")
   .action(init);
 
+// ─── MERGE layer (Pro) ─────────────────────────────────
 program
   .command("push")
   .description("push without conflict")
   .allowUnknownOption()
   .action(async (_, cmd) => {
+    await requirePro();
     await push(cmd.args);
   });
 
 program
   .command("sync")
   .description("pull + rebase without the pain")
-  .action(sync);
+  .action(async () => {
+    await requirePro();
+    await sync();
+  });
 
 program
   .command("swap <branch>")
   .description("switch branches without losing work")
-  .action(swap);
+  .action(async (branch: string) => {
+    await requirePro();
+    await swap(branch);
+  });
 
 program
   .command("undo")
   .description("undo last mistake")
-  .action(undo);
+  .action(async () => {
+    await requirePro();
+    await undo();
+  });
 
+program
+  .command("review")
+  .description("pre-push sanity check")
+  .action(async () => {
+    await requirePro();
+    await review();
+  });
+
+// ─── FREE commands ─────────────────────────────────────
 program
   .command("status")
   .description("what's going on, in english")
@@ -61,20 +83,20 @@ program
   .action(status);
 
 program
-  .command("review")
-  .description("pre-push sanity check")
-  .action(review);
-
-program
   .command("check")
   .description("readiness scan — are you ship-ready?")
   .action(check);
 
+// ─── FIX — 3 free, then Pro ───────────────────────────
 program
   .command("fix")
   .description("auto-fix what nc check found")
-  .action(fix);
+  .action(async () => {
+    await requireFixOrPro();
+    await fix();
+  });
 
+// ─── SHIP layer (Pro) ─────────────────────────────────
 program
   .command("env")
   .description("deploy platform config")
@@ -82,46 +104,64 @@ program
   .option("--url <url>", "set production URL")
   .option("--health <endpoint>", "set health check endpoint")
   .option("--reset", "reset all deploy config")
-  .action(env);
+  .action(async (opts) => {
+    await requirePro();
+    await env(opts);
+  });
 
 program
   .command("ship")
   .description("deploy to production")
   .option("--force", "skip readiness check")
-  .action(ship);
+  .action(async (opts) => {
+    await requirePro();
+    await ship(opts);
+  });
 
+program
+  .command("preview")
+  .description("spin up preview environment")
+  .action(async () => {
+    await requirePro();
+    await preview();
+  });
+
+// ─── WATCH layer (Pro) ────────────────────────────────
 program
   .command("health")
   .description("production health status")
-  .action(health);
+  .action(async () => {
+    await requirePro();
+    await health();
+  });
 
 program
   .command("logs")
   .description("tail production logs")
   .option("--lines <n>", "number of lines", "50")
-  .action(logs);
+  .action(async (opts) => {
+    await requirePro();
+    await logs(opts);
+  });
 
 program
   .command("rollback")
   .description("roll back to last healthy deploy")
-  .action(rollback);
+  .action(async () => {
+    await requirePro();
+    await rollback();
+  });
 
+// ─── Billing ──────────────────────────────────────────
 program
-  .command("preview")
-  .description("spin up preview environment")
-  .action(preview);
+  .command("upgrade")
+  .description("go pro — $29/mo")
+  .action(upgrade);
 
+// Keep activate as alias for upgrade
 program
   .command("activate")
-  .description("go pro — $29/mo")
-  .action(async () => {
-    console.log("");
-    console.log(brand.SKULL("  ☠") + brand.BONE.bold("  NOCONFLICT PRO — $29/mo"));
-    console.log("");
-    console.log(brand.BONE("  → https://noconflict.dev/pro"));
-    console.log("");
-    console.log(brand.SHADOW("  we handle the api key. you just kill."));
-    console.log("");
-  });
+  .description("go pro — $29/mo (alias for upgrade)")
+  .action(upgrade);
 
 program.parse();

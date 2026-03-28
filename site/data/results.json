@@ -1,0 +1,3629 @@
+[
+  {
+    "repo": "pytorch/pytorch",
+    "name": "pytorch",
+    "owner": "pytorch",
+    "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
+    "url": "https://github.com/pytorch/pytorch",
+    "stars": 98627,
+    "forks": 27321,
+    "open_issues": 18121,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 62.1
+      },
+      {
+        "name": "C++",
+        "percent": 30.3
+      },
+      {
+        "name": "Cuda",
+        "percent": 2.8
+      },
+      {
+        "name": "C",
+        "percent": 1.3
+      },
+      {
+        "name": "Objective-C++",
+        "percent": 1.0
+      }
+    ],
+    "topics": [
+      "autograd",
+      "deep-learning",
+      "gpu",
+      "machine-learning",
+      "neural-network",
+      "numpy",
+      "python",
+      "tensor"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:19:32Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 100,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 100,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "High issue-to-star ratio: 18121 open issues / 98627 stars"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:56.570132+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "junegunn/fzf",
+    "name": "fzf",
+    "owner": "junegunn",
+    "description": ":cherry_blossom: A command-line fuzzy finder",
+    "url": "https://github.com/junegunn/fzf",
+    "stars": 79047,
+    "forks": 2737,
+    "open_issues": 317,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 65.7
+      },
+      {
+        "name": "Ruby",
+        "percent": 20.7
+      },
+      {
+        "name": "Shell",
+        "percent": 9.1
+      },
+      {
+        "name": "Vim Script",
+        "percent": 2.8
+      },
+      {
+        "name": "Assembly",
+        "percent": 1.1
+      }
+    ],
+    "topics": [
+      "bash",
+      "cli",
+      "fish",
+      "fzf",
+      "go",
+      "neovim",
+      "tmux",
+      "unix",
+      "vim",
+      "zsh"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T06:01:13Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 100,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 100,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:32.321534+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "fastapi/fastapi",
+    "name": "fastapi",
+    "owner": "fastapi",
+    "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+    "url": "https://github.com/fastapi/fastapi",
+    "stars": 96645,
+    "forks": 8952,
+    "open_issues": 166,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.9
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.0
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      },
+      {
+        "name": "HTML",
+        "percent": 0.0
+      },
+      {
+        "name": "CSS",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "api",
+      "async",
+      "asyncio",
+      "fastapi",
+      "framework",
+      "json",
+      "json-schema",
+      "openapi",
+      "openapi3",
+      "pydantic"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T21:53:12Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:21.993969+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "openai/openai-python",
+    "name": "openai-python",
+    "owner": "openai",
+    "description": "The official Python library for the OpenAI API",
+    "url": "https://github.com/openai/openai-python",
+    "stars": 30346,
+    "forks": 4663,
+    "open_issues": 355,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.9
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      },
+      {
+        "name": "Ruby",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "openai",
+      "python"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T05:33:32Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:44.901811+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "huggingface/transformers",
+    "name": "transformers",
+    "owner": "huggingface",
+    "description": "\ud83e\udd17 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. ",
+    "url": "https://github.com/huggingface/transformers",
+    "stars": 158494,
+    "forks": 32640,
+    "open_issues": 2295,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.9
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.1
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.0
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      },
+      {
+        "name": "Jsonnet",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "audio",
+      "deep-learning",
+      "deepseek",
+      "gemma",
+      "glm",
+      "hacktoberfest",
+      "llm",
+      "machine-learning",
+      "model-hub",
+      "natural-language-processing"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:12:12Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:52.658252+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "anthropics/anthropic-sdk-python",
+    "name": "anthropic-sdk-python",
+    "owner": "anthropics",
+    "description": "",
+    "url": "https://github.com/anthropics/anthropic-sdk-python",
+    "stars": 3026,
+    "forks": 552,
+    "open_issues": 178,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.6
+      },
+      {
+        "name": "Shell",
+        "percent": 0.4
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      },
+      {
+        "name": "Ruby",
+        "percent": 0.0
+      }
+    ],
+    "topics": [],
+    "archived": false,
+    "pushed_at": "2026-03-27T05:30:46Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:04.470569+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "ggerganov/llama.cpp",
+    "name": "llama.cpp",
+    "owner": "ggerganov",
+    "description": "LLM inference in C/C++",
+    "url": "https://github.com/ggml-org/llama.cpp",
+    "stars": 99585,
+    "forks": 15895,
+    "open_issues": 1293,
+    "language": "C++",
+    "languages": [
+      {
+        "name": "C++",
+        "percent": 57.0
+      },
+      {
+        "name": "C",
+        "percent": 12.4
+      },
+      {
+        "name": "Python",
+        "percent": 7.3
+      },
+      {
+        "name": "Cuda",
+        "percent": 5.9
+      },
+      {
+        "name": "HTML",
+        "percent": 3.8
+      }
+    ],
+    "topics": [
+      "ggml"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:25:56Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:12.899070+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "jesseduffield/lazygit",
+    "name": "lazygit",
+    "owner": "jesseduffield",
+    "description": "simple terminal UI for git commands",
+    "url": "https://github.com/jesseduffield/lazygit",
+    "stars": 75126,
+    "forks": 2642,
+    "open_issues": 943,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 99.6
+      },
+      {
+        "name": "Shell",
+        "percent": 0.2
+      },
+      {
+        "name": "Nix",
+        "percent": 0.1
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.0
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cli",
+      "git",
+      "terminal"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:48:39Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 99,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:43.892718+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "denoland/deno",
+    "name": "deno",
+    "owner": "denoland",
+    "description": "A modern runtime for JavaScript and TypeScript.",
+    "url": "https://github.com/denoland/deno",
+    "stars": 106459,
+    "forks": 5962,
+    "open_issues": 2277,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 59.9
+      },
+      {
+        "name": "TypeScript",
+        "percent": 28.9
+      },
+      {
+        "name": "JavaScript",
+        "percent": 11.1
+      },
+      {
+        "name": "CSS",
+        "percent": 0.0
+      },
+      {
+        "name": "Nix",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "deno",
+      "javascript",
+      "rust",
+      "typescript"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:26:14Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:41.053336+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "oven-sh/bun",
+    "name": "bun",
+    "owner": "oven-sh",
+    "description": "Incredibly fast JavaScript runtime, bundler, test runner, and package manager \u2013 all in one",
+    "url": "https://github.com/oven-sh/bun",
+    "stars": 88457,
+    "forks": 4220,
+    "open_issues": 6311,
+    "language": "Zig",
+    "languages": [
+      {
+        "name": "Zig",
+        "percent": 59.7
+      },
+      {
+        "name": "C++",
+        "percent": 25.0
+      },
+      {
+        "name": "TypeScript",
+        "percent": 9.0
+      },
+      {
+        "name": "C",
+        "percent": 3.2
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.4
+      }
+    ],
+    "topics": [
+      "bun",
+      "bundler",
+      "javascript",
+      "javascriptcore",
+      "jsx",
+      "nodejs",
+      "npm",
+      "react",
+      "transpiler",
+      "typescript"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:04:51Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 90
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      },
+      {
+        "category": "dependencies",
+        "severity": "warning",
+        "message": "No lock file found"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:45.121799+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "psf/requests",
+    "name": "requests",
+    "owner": "psf",
+    "description": "A simple, yet elegant, HTTP library.",
+    "url": "https://github.com/psf/requests",
+    "stars": 53881,
+    "forks": 9799,
+    "open_issues": 286,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.3
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.7
+      }
+    ],
+    "topics": [
+      "client",
+      "cookies",
+      "forhumans",
+      "http",
+      "humans",
+      "python",
+      "python-requests",
+      "requests"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-25T15:09:42Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:25.793152+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "pydantic/pydantic",
+    "name": "pydantic",
+    "owner": "pydantic",
+    "description": "Data validation using Python type hints",
+    "url": "https://github.com/pydantic/pydantic",
+    "stars": 27328,
+    "forks": 2511,
+    "open_issues": 546,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 82.5
+      },
+      {
+        "name": "Rust",
+        "percent": 17.2
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.1
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.1
+      },
+      {
+        "name": "HTML",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "hints",
+      "json-schema",
+      "parsing",
+      "pydantic",
+      "python",
+      "python310",
+      "python311",
+      "python312",
+      "python313",
+      "python39"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T10:35:00Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:33.480806+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "python-poetry/poetry",
+    "name": "poetry",
+    "owner": "python-poetry",
+    "description": "Python packaging and dependency management made easy",
+    "url": "https://github.com/python-poetry/poetry",
+    "stars": 34303,
+    "forks": 2420,
+    "open_issues": 558,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 89.3
+      },
+      {
+        "name": "HTML",
+        "percent": 10.7
+      }
+    ],
+    "topics": [
+      "dependency-manager",
+      "package-manager",
+      "packaging",
+      "poetry",
+      "python"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-25T16:10:47Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:37.246581+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "ollama/ollama",
+    "name": "ollama",
+    "owner": "ollama",
+    "description": "Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
+    "url": "https://github.com/ollama/ollama",
+    "stars": 166305,
+    "forks": 15194,
+    "open_issues": 2736,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 61.6
+      },
+      {
+        "name": "C",
+        "percent": 31.5
+      },
+      {
+        "name": "TypeScript",
+        "percent": 3.7
+      },
+      {
+        "name": "C++",
+        "percent": 1.3
+      },
+      {
+        "name": "Objective-C",
+        "percent": 0.6
+      }
+    ],
+    "topics": [
+      "deepseek",
+      "gemma",
+      "gemma3",
+      "glm",
+      "go",
+      "golang",
+      "gpt-oss",
+      "llama",
+      "llama3",
+      "llm"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:26:48Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:08.340351+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "sharkdp/bat",
+    "name": "bat",
+    "owner": "sharkdp",
+    "description": "A cat(1) clone with wings.",
+    "url": "https://github.com/sharkdp/bat",
+    "stars": 57849,
+    "forks": 1494,
+    "open_issues": 343,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 97.5
+      },
+      {
+        "name": "Python",
+        "percent": 1.7
+      },
+      {
+        "name": "Shell",
+        "percent": 0.7
+      },
+      {
+        "name": "Nix",
+        "percent": 0.2
+      },
+      {
+        "name": "Batchfile",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cli",
+      "command-line",
+      "git",
+      "hacktoberfest",
+      "rust",
+      "syntax-highlighting",
+      "terminal",
+      "tool"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-25T20:01:52Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 90,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:40.085392+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "cli/cli",
+    "name": "cli",
+    "owner": "cli",
+    "description": "GitHub\u2019s official command line tool",
+    "url": "https://github.com/cli/cli",
+    "stars": 43398,
+    "forks": 8170,
+    "open_issues": 949,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 99.2
+      },
+      {
+        "name": "Shell",
+        "percent": 0.7
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.1
+      },
+      {
+        "name": "PowerShell",
+        "percent": 0.0
+      },
+      {
+        "name": "Batchfile",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cli",
+      "git",
+      "github-api-v4",
+      "golang"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T14:03:06Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:47.739461+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "kubernetes/kubernetes",
+    "name": "kubernetes",
+    "owner": "kubernetes",
+    "description": "Production-Grade Container Scheduling and Management",
+    "url": "https://github.com/kubernetes/kubernetes",
+    "stars": 121397,
+    "forks": 42747,
+    "open_issues": 2648,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 97.5
+      },
+      {
+        "name": "Shell",
+        "percent": 2.2
+      },
+      {
+        "name": "PowerShell",
+        "percent": 0.2
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.1
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cncf",
+      "containers",
+      "go",
+      "kubernetes"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T23:20:17Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:59.366008+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "traefik/traefik",
+    "name": "traefik",
+    "owner": "traefik",
+    "description": "The Cloud Native Application Proxy",
+    "url": "https://github.com/traefik/traefik",
+    "stars": 62405,
+    "forks": 5894,
+    "open_issues": 778,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 92.4
+      },
+      {
+        "name": "TypeScript",
+        "percent": 7.2
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.1
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.1
+      }
+    ],
+    "topics": [
+      "consul",
+      "docker",
+      "etcd",
+      "go",
+      "golang",
+      "kubernetes",
+      "letsencrypt",
+      "load-balancer",
+      "marathon",
+      "mesos"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T13:42:06Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 1,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:22:07.454676+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "redis/redis",
+    "name": "redis",
+    "owner": "redis",
+    "description": "For developers, who are building real-time data-driven applications, Redis is the preferred, fastest, and most feature-rich cache, data structure server, and document and vector query engine.",
+    "url": "https://github.com/redis/redis",
+    "stars": 73577,
+    "forks": 24557,
+    "open_issues": 2767,
+    "language": "C",
+    "languages": [
+      {
+        "name": "C",
+        "percent": 70.8
+      },
+      {
+        "name": "Tcl",
+        "percent": 26.7
+      },
+      {
+        "name": "Python",
+        "percent": 1.8
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.3
+      },
+      {
+        "name": "Shell",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "cache",
+      "caching",
+      "database",
+      "distributed-systems",
+      "in-memory",
+      "in-memory-database",
+      "json",
+      "key-value",
+      "key-value-store",
+      "message-broker"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T14:09:57Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 90,
+      "dependencies": 97
+    },
+    "overall": 98,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T18:20:45.347189+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "vercel/next.js",
+    "name": "next.js",
+    "owner": "vercel",
+    "description": "The React Framework",
+    "url": "https://github.com/vercel/next.js",
+    "stars": 138517,
+    "forks": 30715,
+    "open_issues": 3590,
+    "language": "JavaScript",
+    "languages": [
+      {
+        "name": "JavaScript",
+        "percent": 54.4
+      },
+      {
+        "name": "TypeScript",
+        "percent": 30.7
+      },
+      {
+        "name": "Rust",
+        "percent": 13.5
+      },
+      {
+        "name": "CSS",
+        "percent": 0.8
+      },
+      {
+        "name": "MDX",
+        "percent": 0.5
+      }
+    ],
+    "topics": [
+      "blog",
+      "browser",
+      "compiler",
+      "components",
+      "hybrid",
+      "nextjs",
+      "node",
+      "react",
+      "server-rendering",
+      "ssg"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:55:30Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 100,
+      "quality": 87,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:08.158658+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "angular/angular",
+    "name": "angular",
+    "owner": "angular",
+    "description": "Deliver web apps with confidence \ud83d\ude80",
+    "url": "https://github.com/angular/angular",
+    "stars": 100142,
+    "forks": 27143,
+    "open_issues": 1114,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 87.4
+      },
+      {
+        "name": "JavaScript",
+        "percent": 6.6
+      },
+      {
+        "name": "HTML",
+        "percent": 2.1
+      },
+      {
+        "name": "Starlark",
+        "percent": 1.9
+      },
+      {
+        "name": "CSS",
+        "percent": 1.0
+      }
+    ],
+    "topics": [
+      "angular",
+      "javascript",
+      "pwa",
+      "typescript",
+      "web",
+      "web-framework",
+      "web-performance"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:17:56Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:24.887829+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "shadcn-ui/ui",
+    "name": "ui",
+    "owner": "shadcn-ui",
+    "description": "A set of beautifully-designed, accessible components and a code distribution platform. Works with your favorite frameworks. Open Source. Open Code.",
+    "url": "https://github.com/shadcn-ui/ui",
+    "stars": 110875,
+    "forks": 8333,
+    "open_issues": 1792,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 91.1
+      },
+      {
+        "name": "MDX",
+        "percent": 6.4
+      },
+      {
+        "name": "CSS",
+        "percent": 2.3
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.1
+      },
+      {
+        "name": "Astro",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "base-ui",
+      "components",
+      "laravel",
+      "nextjs",
+      "radix-ui",
+      "react",
+      "shadcn",
+      "tailwindcss",
+      "tanstack",
+      "ui"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:37:49Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:33.083655+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "vitejs/vite",
+    "name": "vite",
+    "owner": "vitejs",
+    "description": "Next generation frontend tooling. It's fast!",
+    "url": "https://github.com/vitejs/vite",
+    "stars": 79402,
+    "forks": 7963,
+    "open_issues": 678,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 82.2
+      },
+      {
+        "name": "JavaScript",
+        "percent": 9.7
+      },
+      {
+        "name": "HTML",
+        "percent": 4.7
+      },
+      {
+        "name": "CSS",
+        "percent": 2.8
+      },
+      {
+        "name": "Vue",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "build-tool",
+      "dev-server",
+      "frontend",
+      "hmr",
+      "vite"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T04:17:23Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:53.222336+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "trpc/trpc",
+    "name": "trpc",
+    "owner": "trpc",
+    "description": "\ud83e\uddd9\u200d\u2640\ufe0f  Move Fast and Break Nothing. End-to-end typesafe APIs made easy. ",
+    "url": "https://github.com/trpc/trpc",
+    "stars": 39834,
+    "forks": 1523,
+    "open_issues": 196,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 83.0
+      },
+      {
+        "name": "MDX",
+        "percent": 15.2
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.1
+      },
+      {
+        "name": "CSS",
+        "percent": 0.7
+      }
+    ],
+    "topics": [
+      "api",
+      "next",
+      "nextjs",
+      "prisma",
+      "react",
+      "typescript"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:11:56Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:02.365548+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "pallets/flask",
+    "name": "flask",
+    "owner": "pallets",
+    "description": "The Python micro framework for building web applications.",
+    "url": "https://github.com/pallets/flask",
+    "stars": 71383,
+    "forks": 16760,
+    "open_issues": 3,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.9
+      },
+      {
+        "name": "HTML",
+        "percent": 0.1
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      },
+      {
+        "name": "CSS",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "flask",
+      "jinja",
+      "pallets",
+      "python",
+      "web-framework",
+      "werkzeug",
+      "wsgi"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-24T13:55:59Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 87,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:14.019946+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "astral-sh/ruff",
+    "name": "ruff",
+    "owner": "astral-sh",
+    "description": "An extremely fast Python linter and code formatter, written in Rust.",
+    "url": "https://github.com/astral-sh/ruff",
+    "stars": 46732,
+    "forks": 1966,
+    "open_issues": 1929,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 96.3
+      },
+      {
+        "name": "Python",
+        "percent": 2.7
+      },
+      {
+        "name": "TypeScript",
+        "percent": 0.9
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "CSS",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "linter",
+      "pep8",
+      "python",
+      "python3",
+      "ruff",
+      "rust",
+      "rustpython",
+      "static-analysis",
+      "static-code-analysis",
+      "style-guide"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:09:21Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:41.084016+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "tensorflow/tensorflow",
+    "name": "tensorflow",
+    "owner": "tensorflow",
+    "description": "An Open Source Machine Learning Framework for Everyone",
+    "url": "https://github.com/tensorflow/tensorflow",
+    "stars": 194366,
+    "forks": 75253,
+    "open_issues": 4033,
+    "language": "C++",
+    "languages": [
+      {
+        "name": "C++",
+        "percent": 55.8
+      },
+      {
+        "name": "Python",
+        "percent": 25.4
+      },
+      {
+        "name": "MLIR",
+        "percent": 6.3
+      },
+      {
+        "name": "HTML",
+        "percent": 4.2
+      },
+      {
+        "name": "Starlark",
+        "percent": 4.1
+      }
+    ],
+    "topics": [
+      "deep-learning",
+      "deep-neural-networks",
+      "distributed",
+      "machine-learning",
+      "ml",
+      "neural-network",
+      "python",
+      "tensorflow"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:19:42Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 97
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:00.505743+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "run-llama/llama_index",
+    "name": "llama_index",
+    "owner": "run-llama",
+    "description": "LlamaIndex is the leading document agent and OCR platform",
+    "url": "https://github.com/run-llama/llama_index",
+    "stars": 48063,
+    "forks": 7100,
+    "open_issues": 253,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 61.1
+      },
+      {
+        "name": "Jupyter Notebook",
+        "percent": 36.6
+      },
+      {
+        "name": "Makefile",
+        "percent": 1.7
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.3
+      },
+      {
+        "name": "HTML",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "agents",
+      "application",
+      "data",
+      "fine-tuning",
+      "framework",
+      "llamaindex",
+      "llm",
+      "multi-agents",
+      "rag",
+      "vector-database"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:31:30Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:20.937931+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "neovim/neovim",
+    "name": "neovim",
+    "owner": "neovim",
+    "description": "Vim-fork focused on extensibility and usability",
+    "url": "https://github.com/neovim/neovim",
+    "stars": 97504,
+    "forks": 6680,
+    "open_issues": 1909,
+    "language": "Vim Script",
+    "languages": [
+      {
+        "name": "Vim Script",
+        "percent": 40.6
+      },
+      {
+        "name": "Lua",
+        "percent": 31.3
+      },
+      {
+        "name": "C",
+        "percent": 27.3
+      },
+      {
+        "name": "CMake",
+        "percent": 0.4
+      },
+      {
+        "name": "Zig",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "api",
+      "c",
+      "lua",
+      "neovim",
+      "nvim",
+      "text-editor",
+      "vim"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:33:31Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 90,
+      "dependencies": 97
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:24.772001+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "BurntSushi/ripgrep",
+    "name": "ripgrep",
+    "owner": "BurntSushi",
+    "description": "ripgrep recursively searches directories for a regex pattern while respecting your gitignore",
+    "url": "https://github.com/BurntSushi/ripgrep",
+    "stars": 61503,
+    "forks": 2444,
+    "open_issues": 140,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 94.5
+      },
+      {
+        "name": "Python",
+        "percent": 2.6
+      },
+      {
+        "name": "Shell",
+        "percent": 2.1
+      },
+      {
+        "name": "Roff",
+        "percent": 0.7
+      },
+      {
+        "name": "Ruby",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cli",
+      "command-line",
+      "command-line-tool",
+      "gitignore",
+      "grep",
+      "recursively-search",
+      "regex",
+      "ripgrep",
+      "rust",
+      "search"
+    ],
+    "archived": false,
+    "pushed_at": "2026-02-27T16:25:19Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 97,
+      "quality": 87,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:36.179696+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "starship/starship",
+    "name": "starship",
+    "owner": "starship",
+    "description": "\u2604\ud83c\udf0c\ufe0f  The minimal, blazing-fast, and infinitely customizable prompt for any shell!",
+    "url": "https://github.com/starship/starship",
+    "stars": 55456,
+    "forks": 2434,
+    "open_issues": 1001,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 95.8
+      },
+      {
+        "name": "Shell",
+        "percent": 2.7
+      },
+      {
+        "name": "PowerShell",
+        "percent": 1.0
+      },
+      {
+        "name": "Nushell",
+        "percent": 0.1
+      },
+      {
+        "name": "Lua",
+        "percent": 0.1
+      }
+    ],
+    "topics": [
+      "bash",
+      "fish",
+      "fish-prompt",
+      "fish-theme",
+      "oh-my-zsh",
+      "powershell",
+      "rust",
+      "shell-prompt",
+      "starship",
+      "zsh"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T17:02:10Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:51.531355+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "docker/compose",
+    "name": "compose",
+    "owner": "docker",
+    "description": "Define and run multi-container applications with Docker",
+    "url": "https://github.com/docker/compose",
+    "stars": 37213,
+    "forks": 5761,
+    "open_issues": 85,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 96.9
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 2.3
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.5
+      },
+      {
+        "name": "HCL",
+        "percent": 0.2
+      },
+      {
+        "name": "HTML",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "docker",
+      "docker-compose",
+      "go",
+      "golang",
+      "orchestration"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:02:01Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 97,
+    "grade": "A+",
+    "total_issues": 2,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:55.343191+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "facebook/react",
+    "name": "react",
+    "owner": "facebook",
+    "description": "The library for web and native user interfaces.",
+    "url": "https://github.com/facebook/react",
+    "stars": 244233,
+    "forks": 50859,
+    "open_issues": 1186,
+    "language": "JavaScript",
+    "languages": [
+      {
+        "name": "JavaScript",
+        "percent": 68.1
+      },
+      {
+        "name": "TypeScript",
+        "percent": 29.0
+      },
+      {
+        "name": "HTML",
+        "percent": 1.5
+      },
+      {
+        "name": "CSS",
+        "percent": 1.1
+      },
+      {
+        "name": "CoffeeScript",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "declarative",
+      "frontend",
+      "javascript",
+      "library",
+      "react",
+      "ui"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T14:20:35Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:02.765062+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "vuejs/vue",
+    "name": "vue",
+    "owner": "vuejs",
+    "description": "This is the repo for Vue 2. For Vue 3, go to https://github.com/vuejs/core",
+    "url": "https://github.com/vuejs/vue",
+    "stars": 209973,
+    "forks": 33836,
+    "open_issues": 621,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 96.6
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.8
+      },
+      {
+        "name": "HTML",
+        "percent": 0.9
+      },
+      {
+        "name": "CSS",
+        "percent": 0.6
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "framework",
+      "frontend",
+      "javascript",
+      "vue"
+    ],
+    "archived": false,
+    "pushed_at": "2024-10-10T07:24:15Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "Last push 533 days ago \u2014 possibly unmaintained"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:20.609300+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "microsoft/TypeScript",
+    "name": "TypeScript",
+    "owner": "microsoft",
+    "description": "TypeScript is a superset of JavaScript that compiles to clean JavaScript output.",
+    "url": "https://github.com/microsoft/TypeScript",
+    "stars": 108320,
+    "forks": 13309,
+    "open_issues": 5000,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 99.9
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.1
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "javascript",
+      "language",
+      "typechecker",
+      "typescript"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T22:30:26Z",
+    "scores": {
+      "security": 100,
+      "stability": 100,
+      "deployment": 94,
+      "quality": 90,
+      "dependencies": 90
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "dependencies",
+        "severity": "warning",
+        "message": "1 dependencies use wildcard or 'latest' version"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:37.170956+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "tailwindlabs/tailwindcss",
+    "name": "tailwindcss",
+    "owner": "tailwindlabs",
+    "description": "A utility-first CSS framework for rapid UI development.",
+    "url": "https://github.com/tailwindlabs/tailwindcss",
+    "stars": 94214,
+    "forks": 5132,
+    "open_issues": 100,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 81.7
+      },
+      {
+        "name": "Rust",
+        "percent": 15.7
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.8
+      },
+      {
+        "name": "CSS",
+        "percent": 0.7
+      },
+      {
+        "name": "HTML",
+        "percent": 0.7
+      }
+    ],
+    "topics": [
+      "css",
+      "css-framework",
+      "functional-css",
+      "postcss",
+      "responsive",
+      "tailwindcss",
+      "utility-classes"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:53:57Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:57.353338+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "drizzle-team/drizzle-orm",
+    "name": "drizzle-orm",
+    "owner": "drizzle-team",
+    "description": "ORM",
+    "url": "https://github.com/drizzle-team/drizzle-orm",
+    "stars": 33511,
+    "forks": 1267,
+    "open_issues": 1625,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 98.7
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.3
+      }
+    ],
+    "topics": [
+      "bunjs",
+      "mysql",
+      "nodejs",
+      "orm",
+      "postgres",
+      "postgresql",
+      "sql",
+      "sqlite",
+      "turso",
+      "typescript"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:17:34Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:06.395786+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "hashicorp/terraform",
+    "name": "terraform",
+    "owner": "hashicorp",
+    "description": "Terraform enables you to safely and predictably create, change, and improve infrastructure. It is a source-available tool that codifies APIs into declarative configuration files that can be shared amo",
+    "url": "https://github.com/hashicorp/terraform",
+    "stars": 48024,
+    "forks": 10257,
+    "open_issues": 1890,
+    "language": "Go",
+    "languages": [
+      {
+        "name": "Go",
+        "percent": 99.7
+      },
+      {
+        "name": "HCL",
+        "percent": 0.2
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cloud",
+      "cloud-management",
+      "graph",
+      "infrastructure-as-code",
+      "terraform"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T13:06:34Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 100,
+      "quality": 97,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:22:03.241011+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "supabase/supabase",
+    "name": "supabase",
+    "owner": "supabase",
+    "description": "The Postgres development platform. Supabase gives you a dedicated Postgres database to build your web, mobile, and AI applications.",
+    "url": "https://github.com/supabase/supabase",
+    "stars": 99752,
+    "forks": 11905,
+    "open_issues": 974,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 68.4
+      },
+      {
+        "name": "MDX",
+        "percent": 27.3
+      },
+      {
+        "name": "JavaScript",
+        "percent": 2.9
+      },
+      {
+        "name": "CSS",
+        "percent": 0.4
+      },
+      {
+        "name": "SCSS",
+        "percent": 0.3
+      }
+    ],
+    "topics": [
+      "ai",
+      "alternative",
+      "auth",
+      "database",
+      "deno",
+      "embeddings",
+      "example",
+      "firebase",
+      "nextjs",
+      "oauth2"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:51:48Z",
+    "scores": {
+      "security": 100,
+      "stability": 87,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "stability",
+        "severity": "info",
+        "message": "No test script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:22:11.706331+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "prisma/prisma",
+    "name": "prisma",
+    "owner": "prisma",
+    "description": "Next-generation ORM for Node.js & TypeScript | PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB and CockroachDB",
+    "url": "https://github.com/prisma/prisma",
+    "stars": 45605,
+    "forks": 2126,
+    "open_issues": 2538,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 99.0
+      },
+      {
+        "name": "JavaScript",
+        "percent": 0.9
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "Dockerfile",
+        "percent": 0.0
+      },
+      {
+        "name": "PLpgSQL",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "cockroachdb",
+      "database",
+      "javascript",
+      "mariadb",
+      "mongo",
+      "mongodb",
+      "mongodb-orm",
+      "mssql",
+      "mysql",
+      "nodejs"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:49:32Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 96,
+    "grade": "A+",
+    "total_issues": 3,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:22:15.774864+00:00",
+    "category": "typescript",
+    "seeded": true
+  },
+  {
+    "repo": "remix-run/remix",
+    "name": "remix",
+    "owner": "remix-run",
+    "description": "Build Better Websites. Create modern, resilient user experiences with web fundamentals.",
+    "url": "https://github.com/remix-run/remix",
+    "stars": 32520,
+    "forks": 2732,
+    "open_issues": 59,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 98.7
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.0
+      },
+      {
+        "name": "HTML",
+        "percent": 0.2
+      },
+      {
+        "name": "CSS",
+        "percent": 0.1
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      }
+    ],
+    "topics": [],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:00:10Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 95,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:12.248616+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "sveltejs/svelte",
+    "name": "svelte",
+    "owner": "sveltejs",
+    "description": "web development for the rest of us",
+    "url": "https://github.com/sveltejs/svelte",
+    "stars": 86161,
+    "forks": 4832,
+    "open_issues": 978,
+    "language": "JavaScript",
+    "languages": [
+      {
+        "name": "JavaScript",
+        "percent": 71.8
+      },
+      {
+        "name": "Svelte",
+        "percent": 22.4
+      },
+      {
+        "name": "TypeScript",
+        "percent": 4.1
+      },
+      {
+        "name": "CSS",
+        "percent": 1.2
+      },
+      {
+        "name": "HTML",
+        "percent": 0.5
+      }
+    ],
+    "topics": [
+      "compiler",
+      "template",
+      "ui"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:52:17Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 95,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:16.455065+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "solidjs/solid",
+    "name": "solid",
+    "owner": "solidjs",
+    "description": "A declarative, efficient, and flexible JavaScript library for building user interfaces.",
+    "url": "https://github.com/solidjs/solid",
+    "stars": 35385,
+    "forks": 1055,
+    "open_issues": 116,
+    "language": "TypeScript",
+    "languages": [
+      {
+        "name": "TypeScript",
+        "percent": 72.4
+      },
+      {
+        "name": "JavaScript",
+        "percent": 27.4
+      },
+      {
+        "name": "CSS",
+        "percent": 0.2
+      }
+    ],
+    "topics": [
+      "declarative",
+      "fine-grained",
+      "javascript",
+      "jsx",
+      "performance",
+      "proxies",
+      "reactive",
+      "solid"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-25T05:50:17Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 94,
+      "quality": 100,
+      "dependencies": 100
+    },
+    "overall": 95,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:29.000036+00:00",
+    "category": "react",
+    "seeded": true
+  },
+  {
+    "repo": "langchain-ai/langchain",
+    "name": "langchain",
+    "owner": "langchain-ai",
+    "description": "The agent engineering platform",
+    "url": "https://github.com/langchain-ai/langchain",
+    "stars": 131327,
+    "forks": 21626,
+    "open_issues": 515,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 99.3
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.5
+      },
+      {
+        "name": "Shell",
+        "percent": 0.1
+      },
+      {
+        "name": "XSLT",
+        "percent": 0.1
+      },
+      {
+        "name": "HTML",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "agents",
+      "ai",
+      "ai-agents",
+      "anthropic",
+      "chatgpt",
+      "deepagents",
+      "enterprise",
+      "framework",
+      "gemini",
+      "generative-ai"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:30:44Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 97,
+      "dependencies": 97
+    },
+    "overall": 95,
+    "grade": "A+",
+    "total_issues": 5,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:48.824473+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "ohmyzsh/ohmyzsh",
+    "name": "ohmyzsh",
+    "owner": "ohmyzsh",
+    "description": "\ud83d\ude43   A delightful community-driven (with 2,400+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python,",
+    "url": "https://github.com/ohmyzsh/ohmyzsh",
+    "stars": 185686,
+    "forks": 26308,
+    "open_issues": 527,
+    "language": "Shell",
+    "languages": [
+      {
+        "name": "Shell",
+        "percent": 98.6
+      },
+      {
+        "name": "Python",
+        "percent": 1.3
+      },
+      {
+        "name": "Makefile",
+        "percent": 0.1
+      }
+    ],
+    "topics": [
+      "cli",
+      "cli-app",
+      "oh-my-zsh",
+      "oh-my-zsh-plugin",
+      "oh-my-zsh-theme",
+      "ohmyzsh",
+      "plugin-framework",
+      "plugins",
+      "productivity",
+      "shell"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T19:09:57Z",
+    "scores": {
+      "security": 100,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 90,
+      "dependencies": 97
+    },
+    "overall": 95,
+    "grade": "A+",
+    "total_issues": 4,
+    "findings": [
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:28.517705+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "postgres/postgres",
+    "name": "postgres",
+    "owner": "postgres",
+    "description": "Mirror of the official PostgreSQL GIT repository. Note that this is just a *mirror* - we don't work with pull requests on github. To contribute, please see https://wiki.postgresql.org/wiki/Submitting_",
+    "url": "https://github.com/postgres/postgres",
+    "stars": 20399,
+    "forks": 5524,
+    "open_issues": 0,
+    "language": "C",
+    "languages": [
+      {
+        "name": "C",
+        "percent": 83.2
+      },
+      {
+        "name": "PLpgSQL",
+        "percent": 7.5
+      },
+      {
+        "name": "Perl",
+        "percent": 4.7
+      },
+      {
+        "name": "Yacc",
+        "percent": 1.2
+      },
+      {
+        "name": "Meson",
+        "percent": 0.7
+      }
+    ],
+    "topics": [],
+    "archived": false,
+    "pushed_at": "2026-03-27T15:17:59Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 87,
+      "dependencies": 97
+    },
+    "overall": 94,
+    "grade": "A",
+    "total_issues": 6,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T18:20:49.164271+00:00",
+    "category": "tools",
+    "seeded": true
+  },
+  {
+    "repo": "python/cpython",
+    "name": "cpython",
+    "owner": "python",
+    "description": "The Python programming language",
+    "url": "https://github.com/python/cpython",
+    "stars": 72119,
+    "forks": 34319,
+    "open_issues": 9320,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 61.9
+      },
+      {
+        "name": "C",
+        "percent": 35.9
+      },
+      {
+        "name": "C++",
+        "percent": 0.7
+      },
+      {
+        "name": "M4",
+        "percent": 0.4
+      },
+      {
+        "name": "HTML",
+        "percent": 0.3
+      }
+    ],
+    "topics": [],
+    "archived": false,
+    "pushed_at": "2026-03-27T17:04:18Z",
+    "scores": {
+      "security": 97,
+      "stability": 90,
+      "deployment": 97,
+      "quality": 84,
+      "dependencies": 97
+    },
+    "overall": 93,
+    "grade": "A",
+    "total_issues": 7,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No README.md found"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "High issue-to-star ratio: 9320 open issues / 72119 stars"
+      },
+      {
+        "category": "dependencies",
+        "severity": "info",
+        "message": "No recognized dependency manifest found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:10.246766+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "django/django",
+    "name": "django",
+    "owner": "django",
+    "description": "The Web framework for perfectionists with deadlines.",
+    "url": "https://github.com/django/django",
+    "stars": 87139,
+    "forks": 33795,
+    "open_issues": 425,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 97.0
+      },
+      {
+        "name": "Jinja",
+        "percent": 1.3
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.2
+      },
+      {
+        "name": "CSS",
+        "percent": 0.5
+      },
+      {
+        "name": "Shell",
+        "percent": 0.0
+      }
+    ],
+    "topics": [
+      "apps",
+      "django",
+      "framework",
+      "models",
+      "orm",
+      "python",
+      "templates",
+      "views",
+      "web"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-26T19:21:00Z",
+    "scores": {
+      "security": 97,
+      "stability": 100,
+      "deployment": 84,
+      "quality": 87,
+      "dependencies": 90
+    },
+    "overall": 93,
+    "grade": "A",
+    "total_issues": 7,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "warning",
+        "message": "No build script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No README.md found"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      },
+      {
+        "category": "dependencies",
+        "severity": "warning",
+        "message": "No lock file found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:20:18.154179+00:00",
+    "category": "python",
+    "seeded": true
+  },
+  {
+    "repo": "AUTOMATIC1111/stable-diffusion-webui",
+    "name": "stable-diffusion-webui",
+    "owner": "AUTOMATIC1111",
+    "description": "Stable Diffusion web UI",
+    "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+    "stars": 162032,
+    "forks": 30205,
+    "open_issues": 2471,
+    "language": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "percent": 87.5
+      },
+      {
+        "name": "JavaScript",
+        "percent": 8.4
+      },
+      {
+        "name": "CSS",
+        "percent": 2.1
+      },
+      {
+        "name": "HTML",
+        "percent": 1.3
+      },
+      {
+        "name": "Shell",
+        "percent": 0.6
+      }
+    ],
+    "topics": [
+      "ai",
+      "ai-art",
+      "deep-learning",
+      "diffusion",
+      "gradio",
+      "image-generation",
+      "image2image",
+      "img2img",
+      "pytorch",
+      "stable-diffusion"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-02T07:00:53Z",
+    "scores": {
+      "security": 97,
+      "stability": 97,
+      "deployment": 84,
+      "quality": 87,
+      "dependencies": 90
+    },
+    "overall": 92,
+    "grade": "A",
+    "total_issues": 8,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "info",
+        "message": "No test script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "warning",
+        "message": "No build script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      },
+      {
+        "category": "quality",
+        "severity": "info",
+        "message": "Popular repo without CONTRIBUTING.md"
+      },
+      {
+        "category": "dependencies",
+        "severity": "warning",
+        "message": "No lock file found"
+      }
+    ],
+    "scanned_at": "2026-03-27T17:21:16.966884+00:00",
+    "category": "ai",
+    "seeded": true
+  },
+  {
+    "repo": "biomejs/biome",
+    "name": "biome",
+    "owner": "biomejs",
+    "description": "A toolchain for web projects, aimed to provide functionalities to maintain them. Biome offers formatter and linter, usable via CLI and LSP.",
+    "url": "https://github.com/biomejs/biome",
+    "stars": 24180,
+    "forks": 918,
+    "open_issues": 449,
+    "language": "Rust",
+    "languages": [
+      {
+        "name": "Rust",
+        "percent": 85.8
+      },
+      {
+        "name": "JavaScript",
+        "percent": 7.6
+      },
+      {
+        "name": "TypeScript",
+        "percent": 3.4
+      },
+      {
+        "name": "CSS",
+        "percent": 1.6
+      },
+      {
+        "name": "SCSS",
+        "percent": 0.4
+      }
+    ],
+    "topics": [
+      "css",
+      "formatter",
+      "javascript",
+      "json",
+      "jsx",
+      "linter",
+      "static-code-analysis",
+      "typescript",
+      "web"
+    ],
+    "archived": false,
+    "pushed_at": "2026-03-27T16:15:32Z",
+    "scores": {
+      "security": 97,
+      "stability": 87,
+      "deployment": 84,
+      "quality": 90,
+      "dependencies": 100
+    },
+    "overall": 91,
+    "grade": "A",
+    "total_issues": 7,
+    "findings": [
+      {
+        "category": "security",
+        "severity": "info",
+        "message": "No SECURITY.md \u2014 no vulnerability disclosure policy"
+      },
+      {
+        "category": "stability",
+        "severity": "warning",
+        "message": "No test directory found (tests/, test/, __tests__/, spec/)"
+      },
+      {
+        "category": "stability",
+        "severity": "info",
+        "message": "No test script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No deployment configuration detected"
+      },
+      {
+        "category": "deployment",
+        "severity": "warning",
+        "message": "No build script in package.json"
+      },
+      {
+        "category": "deployment",
+        "severity": "info",
+        "message": "No start or dev command in package.json"
+      },
+      {
+        "category": "quality",
+        "severity": "warning",
+        "message": "No LICENSE file \u2014 unclear usage rights"
+      }
+    ],
+    "scanned_at": "2026-03-27T16:20:49.209342+00:00",
+    "category": "typescript",
+    "seeded": true
+  }
+]

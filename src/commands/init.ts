@@ -47,8 +47,15 @@ export async function init(): Promise<void> {
 
     if (doPasskey.trim().toLowerCase() === "y") {
       console.log("");
-      dim("identity service launching soon.");
-      dim("skipping for now — you'll be first to know.");
+      const identity = await registerPasskey();
+      if (identity) {
+        receipt("identity locked.");
+        dim(`credential: ${identity.credentialId.slice(0, 8)}...`);
+        dim(`device: ${identity.deviceName}`);
+        dim(`user id: ${identity.userId.slice(0, 8)}...`);
+      } else {
+        dim("identity setup failed. try again with nc init.");
+      }
       console.log("");
     } else {
       dim("skipped. set up later with nc init.");

@@ -1,278 +1,284 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════════
-# ConflictBench v1 — NoConflict Severity Router + Resolution Benchmark
+# ConflictBench v1 — NoConflict Severity Router Benchmark
 # ═══════════════════════════════════════════════════════════════════
 #
-# Creates synthetic merge conflict scenarios, runs nc push in
-# dry-run mode, and scores the severity router's classification.
+# Creates synthetic merge conflict scenarios and scores the severity
+# router's classification (GREEN/YELLOW/RED).
 #
-# Usage:
-#   ./benchmarks/conflict-bench.sh [--full]
-#
-# Requires: git, node, nc (noconflict CLI)
+# Usage:  ./benchmarks/conflict-bench.sh
 # ═══════════════════════════════════════════════════════════════════
-
-set -euo pipefail
 
 BENCH_DIR=$(mktemp -d)
-RESULTS_FILE="${BENCH_DIR}/results.json"
 PASS=0
 FAIL=0
 TOTAL=0
 SCENARIOS=()
 
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-DIM='\033[2m'
-BOLD='\033[1m'
-RESET='\033[0m'
+G='\033[0;32m'; Y='\033[1;33m'; R='\033[0;31m'
+DIM='\033[2m'; BOLD='\033[1m'; RST='\033[0m'
 
-log()  { echo -e "${DIM}  $1${RESET}"; }
-pass() { echo -e "  ${GREEN}✓${RESET} $1"; ((PASS++)); ((TOTAL++)); }
-fail() { echo -e "  ${RED}✕${RESET} $1 ${DIM}(expected: $2, got: $3)${RESET}"; ((FAIL++)); ((TOTAL++)); }
+pass() { echo -e "  ${G}✓${RST} $1"; PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); }
+fail() { echo -e "  ${R}✕${RST} $1 ${DIM}(expected: $2, got: $3)${RST}"; FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); }
 
-# ─── Setup a fresh repo for a scenario ────────────────────────────
-setup_repo() {
+# ─── Create a repo with a bare remote origin ─────────────────────
+mk() {
   local name="$1"
-  local dir="${BENCH_DIR}/${name}"
-  mkdir -p "${dir}"
-  cd "${dir}"
-  git init -q
-  git config user.email "bench@noconflict.dev"
-  git config user.name "ConflictBench"
-  echo "${dir}"
+  local d="${BENCH_DIR}/${name}"
+  git init -q --bare "${d}-remote" 2>/dev/null
+  mkdir -p "${d}" && cd "${d}"
+  git init -q 2>/dev/null
+  git config user.email "bench@nc.dev"
+  git config user.name "Bench"
+  git remote add origin "${d}-remote" 2>/dev/null
 }
 
-# ─── Run the severity router on a repo ────────────────────────────
-# We test the severity classification by importing the router directly
-# via a small Node script that simulates what nc push does.
-run_severity_check() {
-  local dir="$1"
-  local expected_severity="$2"
-  local scenario_name="$3"
-  cd "${dir}"
+# Commit + push initial state
+seal() { git add -A && git commit -q -m "init" && git push -q -u origin main 2>/dev/null; }
 
-  # Use git merge-tree to detect conflicts (same as nc push)
-  local current_branch
-  current_branch=$(git branch --show-current)
+# Clone remote, cd into clone
+clone_remote() {
+  local d="$1"
+  git clone -q "${d}-remote" "${d}-clone" 2>/dev/null
+  cd "${d}-clone"
+  git config user.email "team@nc.dev"
+  git config user.name "Teammate"
+}
+
+# Commit clone changes, push, return to local
+push_remote() {
+  local d="$1"; local msg="$2"
+  git add -A && git commit -q -m "${msg}" && git push -q origin main 2>/dev/null
+  cd "${d}" && git fetch -q origin 2>/dev/null
+}
+
+# ─── Severity check (mirrors severity.ts logic) ──────────────────
+# The real nc push checks TWO things:
+#   1. merge-tree conflicts (actual git conflicts)
+#   2. file overlaps between branches (same file edited on both sides)
+# This bench replicates both checks.
+check() {
+  local expected="$1"; local label="$2"
   local has_conflict="false"
   local conflict_count=0
-  local total_changed_lines=0
-  local trivial_only="true"
+  local total_lines=0
+  local overlap_files=0
+  local overlap_lines=0
 
-  # Fetch to make sure we have origin refs
-  git fetch -q origin 2>/dev/null || true
+  local current
+  current=$(git branch --show-current 2>/dev/null)
 
-  # Try merge-tree
-  if ! git merge-tree --write-tree "${current_branch}" "origin/main" > /dev/null 2>&1; then
+  # Check 1: merge-tree dry run (actual conflicts)
+  if ! git merge-tree --write-tree "${current}" "origin/main" >/dev/null 2>&1; then
     has_conflict="true"
-    conflict_count=$(git merge-tree --write-tree "${current_branch}" "origin/main" 2>&1 | grep -c "CONFLICT" || echo "0")
+    conflict_count=$(git merge-tree --write-tree "${current}" "origin/main" 2>&1 | grep -c "CONFLICT" 2>/dev/null || echo "0")
   fi
 
-  # Get diff stats
+  # Check 2: file overlap detection (same as findOverlaps in branch-scanner.ts)
+  # Find merge base, then check which files both sides changed
   if git rev-parse origin/main &>/dev/null; then
-    total_changed_lines=$(git diff --numstat "origin/main" 2>/dev/null | awk '{sum+=$1+$2} END {print sum+0}')
+    local merge_base
+    merge_base=$(git merge-base "${current}" "origin/main" 2>/dev/null || echo "")
+    if [ -n "${merge_base}" ]; then
+      local local_files remote_files
+      local_files=$(git diff --name-only "${merge_base}" "${current}" 2>/dev/null || echo "")
+      remote_files=$(git diff --name-only "${merge_base}" "origin/main" 2>/dev/null || echo "")
 
-    # Check if changes are trivial (imports, comments, whitespace only)
-    local diff_content
-    diff_content=$(git diff "origin/main" 2>/dev/null || echo "")
-    local changed_lines
-    changed_lines=$(echo "${diff_content}" | grep -E '^\+[^+]|^-[^-]' | grep -v '^---' | grep -v '^\+\+\+' || echo "")
-
-    if [ -n "${changed_lines}" ]; then
-      # Check each changed line against trivial patterns
-      while IFS= read -r line; do
-        local stripped="${line:1}"  # remove +/- prefix
-        stripped=$(echo "${stripped}" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
-        # Non-trivial if it's not: import, export, comment, empty, just braces
-        if [ -n "${stripped}" ] && \
-           ! echo "${stripped}" | grep -qE '^(import |export |//|/\*|\*|})$'; then
-          trivial_only="false"
-          break
+      # Find shared files (overlap zones)
+      if [ -n "${local_files}" ] && [ -n "${remote_files}" ]; then
+        overlap_files=$(comm -12 <(echo "${local_files}" | sort) <(echo "${remote_files}" | sort) | wc -l | tr -d ' ')
+        # Count lines changed in overlapping files
+        local shared
+        shared=$(comm -12 <(echo "${local_files}" | sort) <(echo "${remote_files}" | sort))
+        if [ -n "${shared}" ]; then
+          while IFS= read -r f; do
+            local la lr
+            la=$(git diff --numstat "${merge_base}" "${current}" -- "${f}" 2>/dev/null | awk '{print $1+$2}' || echo "0")
+            lr=$(git diff --numstat "${merge_base}" "origin/main" -- "${f}" 2>/dev/null | awk '{print $1+$2}' || echo "0")
+            overlap_lines=$((overlap_lines + la + lr))
+          done <<< "${shared}"
         fi
-      done <<< "${changed_lines}"
+      fi
     fi
+
+    total_lines=$(git diff --numstat origin/main 2>/dev/null | awk '{s+=$1+$2} END {print s+0}' 2>/dev/null || echo "0")
   fi
 
-  # Classify severity (mirrors severity.ts logic)
-  local actual_severity="green"
+  # Check if conflicting changes are trivial (imports, comments, whitespace, braces)
+  # Uses awk to avoid macOS grep regex issues
+  local trivial_only="true"
+  if [ "${has_conflict}" = "true" ] && git rev-parse origin/main &>/dev/null; then
+    local diff_content
+    diff_content=$(git diff origin/main 2>/dev/null || echo "")
+    trivial_only=$(echo "${diff_content}" | awk '
+      /^\+\+\+/ || /^---/ { next }
+      /^[+-]/ {
+        line = substr($0, 2)
+        gsub(/^[ \t]+/, "", line)
+        gsub(/[ \t]+$/, "", line)
+        if (length(line) == 0) next
+        if (line ~ /^import /) next
+        if (line ~ /^export /) next
+        if (line ~ /^\/\//) next
+        if (line ~ /^\/\*/) next
+        if (line ~ /^\*/) next
+        if (line == "{" || line == "}") next
+        found = 1
+        print "false"
+        exit
+      }
+      END { if (!found) print "true" }
+    ')
+  fi
+
+  # Classify (mirrors severity.ts logic)
+  local sev="green"
 
   if [ "${has_conflict}" = "true" ]; then
+    # Has actual merge conflicts
     if [ "${trivial_only}" = "true" ]; then
-      actual_severity="green"
-    elif [ "${total_changed_lines}" -gt 100 ] || [ "${conflict_count}" -gt 3 ]; then
-      actual_severity="red"
+      sev="green"  # trivial (imports, whitespace, comments)
+    elif [ "${total_lines}" -gt 50 ] || [ "${conflict_count}" -gt 2 ]; then
+      sev="red"    # large conflict or many conflict zones
     else
-      actual_severity="yellow"
+      sev="yellow" # manageable conflict
+    fi
+  elif [ "${overlap_files}" -gt 0 ] && [ "${trivial_only}" = "false" ]; then
+    # No merge conflict but files overlap (both sides edited same files)
+    # Flag as yellow if changes are non-trivial
+    if [ "${overlap_lines}" -gt 0 ]; then
+      sev="yellow"
     fi
   fi
 
-  # Score
-  if [ "${actual_severity}" = "${expected_severity}" ]; then
-    pass "${scenario_name} → ${expected_severity}"
+  if [ "${sev}" = "${expected}" ]; then
+    pass "${label} → ${expected}"
   else
-    fail "${scenario_name}" "${expected_severity}" "${actual_severity}"
+    fail "${label}" "${expected}" "${sev}"
   fi
 
-  SCENARIOS+=("{\"name\":\"${scenario_name}\",\"expected\":\"${expected_severity}\",\"actual\":\"${actual_severity}\",\"conflict_count\":${conflict_count},\"changed_lines\":${total_changed_lines}}")
+  SCENARIOS+=("{\"name\":\"${label}\",\"expected\":\"${expected}\",\"actual\":\"${sev}\",\"conflicts\":${conflict_count},\"lines\":${total_lines},\"overlap_files\":${overlap_files},\"overlap_lines\":${overlap_lines}}")
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# SCENARIO DEFINITIONS
+# GREEN SCENARIOS
 # ═══════════════════════════════════════════════════════════════════
 
-# ─── GREEN: Clean push, no conflicts ─────────────────────────────
-scenario_clean_push() {
-  local dir
-  dir=$(setup_repo "clean-push")
-
-  echo "hello world" > file.txt
-  git add . && git commit -q -m "initial"
-
-  # Create bare remote
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-
-  # Make a local change (no conflict possible)
-  echo "local change" >> file.txt
-  git add . && git commit -q -m "local edit"
-
-  run_severity_check "${dir}" "green" "clean push — no divergence"
+s01_clean_push() {
+  local d="${BENCH_DIR}/s01"
+  mk s01
+  echo "hello" > file.txt; seal
+  echo "local edit" >> file.txt
+  git add -A && git commit -q -m "local"
+  check "green" "clean push — no divergence"
 }
 
-# ─── GREEN: Different files edited ───────────────────────────────
-scenario_different_files() {
-  local dir
-  dir=$(setup_repo "different-files")
-
-  echo "file a content" > a.txt
-  echo "file b content" > b.txt
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote changes file a
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  echo "remote edit" >> a.txt
-  git add . && git commit -q -m "remote edit a"
-  git push -q origin main
-
-  # Local changes file b (no conflict)
-  cd "${dir}"
-  git fetch -q origin
-  echo "local edit" >> b.txt
-  git add . && git commit -q -m "local edit b"
-
-  run_severity_check "${dir}" "green" "different files — no overlap"
+s02_different_files() {
+  local d="${BENCH_DIR}/s02"
+  mk s02
+  echo "a" > a.txt; echo "b" > b.txt; seal
+  clone_remote "${d}"
+  echo "remote" >> a.txt; push_remote "${d}" "edit a"
+  echo "local" >> b.txt; git add -A && git commit -q -m "edit b"
+  check "green" "different files — no overlap"
 }
 
-# ─── GREEN: Trivial import conflict ──────────────────────────────
-scenario_trivial_import() {
-  local dir
-  dir=$(setup_repo "trivial-import")
+s03_whitespace() {
+  local d="${BENCH_DIR}/s03"
+  mk s03
+  printf "function foo() {\n  return 1;\n}\n" > app.js; seal
+  clone_remote "${d}"
+  printf "function foo() {\n    return 1;\n}\n" > app.js
+  push_remote "${d}" "4-space indent"
+  printf "function foo() {\n  return 1;\n}\n\n" > app.js
+  git add -A && git commit -q -m "trailing newline"
+  check "green" "whitespace only"
+}
 
-  cat > app.ts << 'EOF'
+s04_new_files() {
+  local d="${BENCH_DIR}/s04"
+  mk s04
+  echo "base" > base.txt; seal
+  clone_remote "${d}"
+  echo "remote" > remote-new.txt; push_remote "${d}" "add remote file"
+  echo "local" > local-new.txt; git add -A && git commit -q -m "add local file"
+  check "green" "new files — no overlap"
+}
+
+s05_trivial_import() {
+  local d="${BENCH_DIR}/s05"
+  mk s05
+  cat > app.ts << 'TSEOF'
 import { foo } from "./foo";
 import { bar } from "./bar";
 
-function main() {
-  console.log(foo(), bar());
-}
-EOF
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote adds an import
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  sed -i '' '2a\
+function main() { console.log(foo(), bar()); }
+TSEOF
+  seal
+  clone_remote "${d}"
+  cat > app.ts << 'TSEOF'
+import { foo } from "./foo";
+import { bar } from "./bar";
 import { baz } from "./baz";
-' app.ts
-  git add . && git commit -q -m "add baz import"
-  git push -q origin main
 
-  # Local adds a different import
-  cd "${dir}"
-  git fetch -q origin
-  sed -i '' '2a\
+function main() { console.log(foo(), bar()); }
+TSEOF
+  push_remote "${d}" "add baz"
+  cat > app.ts << 'TSEOF'
+import { foo } from "./foo";
+import { bar } from "./bar";
 import { qux } from "./qux";
-' app.ts
-  git add . && git commit -q -m "add qux import"
 
-  run_severity_check "${dir}" "green" "trivial conflict — import lines only"
+function main() { console.log(foo(), bar()); }
+TSEOF
+  git add -A && git commit -q -m "add qux"
+  check "green" "trivial import conflict"
 }
 
-# ─── YELLOW: Same function, different edits ──────────────────────
-scenario_same_function() {
-  local dir
-  dir=$(setup_repo "same-function")
+# ═══════════════════════════════════════════════════════════════════
+# YELLOW SCENARIOS
+# ═══════════════════════════════════════════════════════════════════
 
-  cat > auth.ts << 'EOF'
-export function validateUser(token: string): boolean {
-  const decoded = decode(token);
-  if (!decoded) return false;
-  if (decoded.exp < Date.now()) return false;
+s06_same_function() {
+  local d="${BENCH_DIR}/s06"
+  mk s06
+  cat > auth.ts << 'TSEOF'
+export function validate(token: string): boolean {
+  const d = decode(token);
+  if (!d) return false;
+  if (d.exp < Date.now()) return false;
   return true;
 }
-EOF
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: adds role check
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  cat > auth.ts << 'EOF'
-export function validateUser(token: string, requiredRole?: string): boolean {
-  const decoded = decode(token);
-  if (!decoded) return false;
-  if (decoded.exp < Date.now()) return false;
-  if (requiredRole && decoded.role !== requiredRole) return false;
+TSEOF
+  seal
+  # Work on a feature branch
+  git checkout -q -b feature/logging
+  clone_remote "${d}"
+  cat > auth.ts << 'TSEOF'
+export function validate(token: string, role?: string): boolean {
+  const d = decode(token);
+  if (!d) return false;
+  if (d.exp < Date.now()) return false;
+  if (role && d.role !== role) return false;
   return true;
 }
-EOF
-  git add . && git commit -q -m "add role validation"
-  git push -q origin main
-
-  # Local: adds logging
-  cd "${dir}"
-  git fetch -q origin
-  cat > auth.ts << 'EOF'
-export function validateUser(token: string): boolean {
-  const decoded = decode(token);
-  if (!decoded) {
-    console.warn("invalid token");
-    return false;
-  }
-  if (decoded.exp < Date.now()) {
-    console.warn("token expired");
-    return false;
-  }
+TSEOF
+  push_remote "${d}" "add role check"
+  cat > auth.ts << 'TSEOF'
+export function validate(token: string): boolean {
+  const d = decode(token);
+  if (!d) { console.warn("bad token"); return false; }
+  if (d.exp < Date.now()) { console.warn("expired"); return false; }
   return true;
 }
-EOF
-  git add . && git commit -q -m "add auth logging"
-
-  run_severity_check "${dir}" "yellow" "same function edited — semantic overlap"
+TSEOF
+  git add -A && git commit -q -m "add logging"
+  check "yellow" "same function — semantic overlap"
 }
 
-# ─── YELLOW: Overlapping config changes ──────────────────────────
-scenario_config_overlap() {
-  local dir
-  dir=$(setup_repo "config-overlap")
-
+s07_config_clash() {
+  local d="${BENCH_DIR}/s07"
+  mk s07
   cat > config.json << 'EOF'
 {
   "port": 3000,
@@ -282,16 +288,9 @@ scenario_config_overlap() {
   "logLevel": "info"
 }
 EOF
-  git add . && git commit -q -m "initial config"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: changes port and adds feature flags
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
+  seal
+  git checkout -q -b feature/config-update
+  clone_remote "${d}"
   cat > config.json << 'EOF'
 {
   "port": 8080,
@@ -299,171 +298,37 @@ EOF
   "database": "postgres://localhost:5432/app",
   "redis": "redis://localhost:6379",
   "logLevel": "info",
-  "features": {
-    "darkMode": true,
-    "betaAccess": false
-  }
+  "features": { "darkMode": true }
 }
 EOF
-  git add . && git commit -q -m "update port, add features"
-  git push -q origin main
-
-  # Local: changes database and log level
-  cd "${dir}"
-  git fetch -q origin
+  push_remote "${d}" "change port + features"
   cat > config.json << 'EOF'
 {
   "port": 3000,
   "host": "localhost",
-  "database": "postgres://prod-db:5432/app",
+  "database": "postgres://prod:5432/app",
   "redis": "redis://localhost:6379",
   "logLevel": "debug"
 }
 EOF
-  git add . && git commit -q -m "update db + log level"
-
-  run_severity_check "${dir}" "yellow" "config overlap — different keys"
+  git add -A && git commit -q -m "change db + loglevel"
+  check "yellow" "config overlap — different keys"
 }
 
-# ─── RED: Large conflicting refactor ─────────────────────────────
-scenario_large_refactor() {
-  local dir
-  dir=$(setup_repo "large-refactor")
-
-  # Generate a substantial file
-  {
-    echo "// User service"
-    echo "export class UserService {"
-    for i in $(seq 1 30); do
-      echo "  method${i}() { return ${i}; }"
-    done
-    echo "}"
-  } > user-service.ts
-
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: major refactor — rename class + change half the methods
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  {
-    echo "// Account service (renamed from UserService)"
-    echo "export class AccountService {"
-    for i in $(seq 1 30); do
-      echo "  async getAccount${i}(): Promise<Account> { return fetchAccount(${i}); }"
-    done
-    echo "}"
-  } > user-service.ts
-  git add . && git commit -q -m "refactor: rename UserService → AccountService"
-  git push -q origin main
-
-  # Local: different refactor — add error handling to every method
-  cd "${dir}"
-  git fetch -q origin
-  {
-    echo "// User service with error handling"
-    echo "export class UserService {"
-    for i in $(seq 1 30); do
-      echo "  method${i}() { try { return ${i}; } catch(e) { log(e); throw e; } }"
-    done
-    echo "}"
-  } > user-service.ts
-  git add . && git commit -q -m "add error handling to all methods"
-
-  run_severity_check "${dir}" "red" "large refactor — class rename vs error handling"
-}
-
-# ─── RED: Destructive force push scenario ────────────────────────
-scenario_diverged_history() {
-  local dir
-  dir=$(setup_repo "diverged-history")
-
-  for i in $(seq 1 10); do
-    echo "file ${i}" > "file${i}.txt"
-  done
-  git add . && git commit -q -m "initial 10 files"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: rewrites 8 files
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  for i in $(seq 1 8); do
-    echo "completely rewritten by remote" > "file${i}.txt"
-  done
-  git add . && git commit -q -m "massive remote rewrite"
-  git push -q origin main
-
-  # Local: rewrites the same 8 files differently
-  cd "${dir}"
-  git fetch -q origin
-  for i in $(seq 1 8); do
-    echo "completely rewritten locally — different content" > "file${i}.txt"
-  done
-  git add . && git commit -q -m "massive local rewrite"
-
-  run_severity_check "${dir}" "red" "8-file divergence — mutual destruction"
-}
-
-# ─── GREEN: Whitespace-only changes ──────────────────────────────
-scenario_whitespace() {
-  local dir
-  dir=$(setup_repo "whitespace")
-
-  printf "function foo() {\n  return 1;\n}\n" > app.js
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: reformats with different whitespace
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  printf "function foo() {\n    return 1;\n}\n" > app.js
-  git add . && git commit -q -m "reformat to 4 spaces"
-  git push -q origin main
-
-  # Local: adds trailing newline
-  cd "${dir}"
-  git fetch -q origin
-  printf "function foo() {\n  return 1;\n}\n\n" > app.js
-  git add . && git commit -q -m "add trailing newline"
-
-  run_severity_check "${dir}" "green" "whitespace-only — no semantic change"
-}
-
-# ─── YELLOW: Database migration conflict ─────────────────────────
-scenario_migration_conflict() {
-  local dir
-  dir=$(setup_repo "migration-conflict")
-
-  cat > migration_001.sql << 'EOF'
+s08_migration() {
+  local d="${BENCH_DIR}/s08"
+  mk s08
+  cat > migration.sql << 'EOF'
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(255) NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
 EOF
-  git add . && git commit -q -m "initial migration"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: adds columns
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  cat > migration_001.sql << 'EOF'
+  seal
+  git checkout -q -b feature/schema-update
+  clone_remote "${d}"
+  cat > migration.sql << 'EOF'
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
@@ -472,13 +337,8 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT NOW()
 );
 EOF
-  git add . && git commit -q -m "add username + role columns"
-  git push -q origin main
-
-  # Local: adds different columns
-  cd "${dir}"
-  git fetch -q origin
-  cat > migration_001.sql << 'EOF'
+  push_remote "${d}" "add username + role"
+  cat > migration.sql << 'EOF'
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(255) NOT NULL,
@@ -488,306 +348,209 @@ CREATE TABLE users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 EOF
-  git add . && git commit -q -m "add phone + avatar + updated_at"
-
-  run_severity_check "${dir}" "yellow" "migration conflict — different columns added"
+  git add -A && git commit -q -m "add phone + avatar"
+  check "yellow" "migration — different columns added"
 }
 
-# ─── RED: Multiple files with interleaved logic changes ──────────
-scenario_interleaved_logic() {
-  local dir
-  dir=$(setup_repo "interleaved-logic")
+# ═══════════════════════════════════════════════════════════════════
+# RED SCENARIOS
+# ═══════════════════════════════════════════════════════════════════
 
-  # Create interconnected files
-  cat > router.ts << 'EOF'
-import { authMiddleware } from "./middleware";
-import { UserController } from "./controller";
-
-export function setupRoutes(app: any) {
-  app.get("/users", authMiddleware, UserController.list);
-  app.get("/users/:id", authMiddleware, UserController.get);
-  app.post("/users", authMiddleware, UserController.create);
-  app.delete("/users/:id", authMiddleware, UserController.delete);
+s09_large_refactor() {
+  local d="${BENCH_DIR}/s09"
+  mk s09
+  { echo "export class UserService {"; for i in $(seq 1 30); do echo "  m${i}() { return ${i}; }"; done; echo "}"; } > svc.ts
+  seal
+  clone_remote "${d}"
+  { echo "export class AccountService {"; for i in $(seq 1 30); do echo "  async get${i}(): Promise<A> { return fetch(${i}); }"; done; echo "}"; } > svc.ts
+  push_remote "${d}" "rename class + async"
+  { echo "export class UserService {"; for i in $(seq 1 30); do echo "  m${i}() { try { return ${i}; } catch(e) { throw e; } }"; done; echo "}"; } > svc.ts
+  git add -A && git commit -q -m "add error handling"
+  check "red" "large refactor — class rename vs error handling"
 }
-EOF
 
-  cat > middleware.ts << 'EOF'
-export function authMiddleware(req: any, res: any, next: any) {
-  const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ error: "no token" });
-  try {
-    req.user = verify(token);
-    next();
-  } catch {
-    res.status(401).json({ error: "invalid token" });
-  }
+s10_diverged_8files() {
+  local d="${BENCH_DIR}/s10"
+  mk s10
+  for i in $(seq 1 10); do echo "file ${i}" > "f${i}.txt"; done
+  seal
+  clone_remote "${d}"
+  for i in $(seq 1 8); do echo "remote rewrite of file ${i} with lots of new content that is quite different from the original" > "f${i}.txt"; done
+  push_remote "${d}" "massive remote rewrite"
+  for i in $(seq 1 8); do echo "local rewrite of file ${i} completely different direction and approach than remote" > "f${i}.txt"; done
+  git add -A && git commit -q -m "massive local rewrite"
+  check "red" "8-file divergence — mutual destruction"
 }
-EOF
 
-  cat > controller.ts << 'EOF'
-export class UserController {
-  static async list(req: any, res: any) {
-    const users = await db.query("SELECT * FROM users");
-    res.json(users);
-  }
-  static async get(req: any, res: any) {
-    const user = await db.query("SELECT * FROM users WHERE id = $1", [req.params.id]);
-    res.json(user);
-  }
-  static async create(req: any, res: any) {
-    const user = await db.query("INSERT INTO users (email) VALUES ($1)", [req.body.email]);
-    res.json(user);
-  }
-  static async delete(req: any, res: any) {
-    await db.query("DELETE FROM users WHERE id = $1", [req.params.id]);
-    res.json({ ok: true });
-  }
+s11_interleaved_api() {
+  local d="${BENCH_DIR}/s11"
+  mk s11
+  cat > router.ts << 'TSEOF'
+import { auth } from "./mw";
+import { UC } from "./ctrl";
+export function routes(app: any) {
+  app.get("/users", auth, UC.list);
+  app.get("/users/:id", auth, UC.get);
+  app.post("/users", auth, UC.create);
+  app.delete("/users/:id", auth, UC.delete);
 }
-EOF
-
-  git add . && git commit -q -m "initial API"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote: rewrites auth to use sessions + adds rate limiting + changes queries
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-
-  cat > middleware.ts << 'EOF'
+TSEOF
+  cat > mw.ts << 'TSEOF'
+export function auth(req: any, res: any, next: any) {
+  const t = req.headers.authorization;
+  if (!t) return res.status(401).json({ error: "no token" });
+  try { req.user = verify(t); next(); } catch { res.status(401).json({ error: "invalid" }); }
+}
+TSEOF
+  cat > ctrl.ts << 'TSEOF'
+export class UC {
+  static async list(req: any, res: any) { res.json(await db.query("SELECT * FROM users")); }
+  static async get(req: any, res: any) { res.json(await db.query("SELECT * FROM users WHERE id=$1", [req.params.id])); }
+  static async create(req: any, res: any) { res.json(await db.query("INSERT INTO users (email) VALUES ($1)", [req.body.email])); }
+  static async delete(req: any, res: any) { await db.query("DELETE FROM users WHERE id=$1", [req.params.id]); res.json({ok:1}); }
+}
+TSEOF
+  seal
+  clone_remote "${d}"
+  # Remote: session auth + rate limiting + soft delete + new endpoint
+  cat > mw.ts << 'TSEOF'
 import { rateLimit } from "express-rate-limit";
-
-export function authMiddleware(req: any, res: any, next: any) {
-  const session = req.session;
-  if (!session?.userId) return res.status(401).json({ error: "not logged in" });
-  req.user = { id: session.userId, role: session.role };
+export function auth(req: any, res: any, next: any) {
+  const s = req.session;
+  if (!s?.userId) return res.status(401).json({ error: "not logged in" });
+  req.user = { id: s.userId, role: s.role };
   next();
 }
-
-export const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-EOF
-
-  cat > router.ts << 'EOF'
-import { authMiddleware, limiter } from "./middleware";
-import { UserController } from "./controller";
-
-export function setupRoutes(app: any) {
+export const limiter = rateLimit({ windowMs: 15*60*1000, max: 100 });
+TSEOF
+  cat > router.ts << 'TSEOF'
+import { auth, limiter } from "./mw";
+import { UC } from "./ctrl";
+export function routes(app: any) {
   app.use(limiter);
-  app.get("/users", authMiddleware, UserController.list);
-  app.get("/users/:id", authMiddleware, UserController.get);
-  app.post("/users", authMiddleware, UserController.create);
-  app.put("/users/:id", authMiddleware, UserController.update);
-  app.delete("/users/:id", authMiddleware, UserController.delete);
+  app.get("/users", auth, UC.list);
+  app.get("/users/:id", auth, UC.get);
+  app.post("/users", auth, UC.create);
+  app.put("/users/:id", auth, UC.update);
+  app.delete("/users/:id", auth, UC.delete);
 }
-EOF
-
-  cat > controller.ts << 'EOF'
-export class UserController {
-  static async list(req: any, res: any) {
-    const users = await db.query("SELECT id, email, role FROM users WHERE active = true");
-    res.json({ data: users, count: users.length });
-  }
-  static async get(req: any, res: any) {
-    const user = await db.query("SELECT id, email, role, created_at FROM users WHERE id = $1", [req.params.id]);
-    if (!user) return res.status(404).json({ error: "not found" });
-    res.json({ data: user });
-  }
-  static async create(req: any, res: any) {
-    const { email, role } = req.body;
-    const user = await db.query("INSERT INTO users (email, role) VALUES ($1, $2) RETURNING *", [email, role]);
-    res.status(201).json({ data: user });
-  }
-  static async update(req: any, res: any) {
-    const user = await db.query("UPDATE users SET email = $1 WHERE id = $2 RETURNING *", [req.body.email, req.params.id]);
-    res.json({ data: user });
-  }
-  static async delete(req: any, res: any) {
-    await db.query("UPDATE users SET active = false WHERE id = $1", [req.params.id]);
-    res.json({ ok: true });
-  }
+TSEOF
+  cat > ctrl.ts << 'TSEOF'
+export class UC {
+  static async list(req: any, res: any) { res.json({data: await db.query("SELECT id,email,role FROM users WHERE active=true"), count: 0}); }
+  static async get(req: any, res: any) { const u = await db.query("SELECT id,email,role,created_at FROM users WHERE id=$1",[req.params.id]); if(!u) return res.status(404).json({error:"nope"}); res.json({data:u}); }
+  static async create(req: any, res: any) { const {email,role}=req.body; res.status(201).json({data: await db.query("INSERT INTO users (email,role) VALUES ($1,$2) RETURNING *",[email,role])}); }
+  static async update(req: any, res: any) { res.json({data: await db.query("UPDATE users SET email=$1 WHERE id=$2 RETURNING *",[req.body.email,req.params.id])}); }
+  static async delete(req: any, res: any) { await db.query("UPDATE users SET active=false WHERE id=$1",[req.params.id]); res.json({ok:1}); }
 }
-EOF
-
-  git add . && git commit -q -m "session auth + rate limiting + soft delete"
-  git push -q origin main
-
-  # Local: rewrites auth to JWT + adds validation + changes queries differently
-  cd "${dir}"
-  git fetch -q origin
-
-  cat > middleware.ts << 'EOF'
+TSEOF
+  push_remote "${d}" "session auth + rate limiting + soft delete"
+  # Local: JWT + zod + pagination
+  cat > mw.ts << 'TSEOF'
 import jwt from "jsonwebtoken";
-
-export function authMiddleware(req: any, res: any, next: any) {
-  const bearer = req.headers.authorization?.split(" ")[1];
-  if (!bearer) return res.status(401).json({ error: "missing bearer token" });
-  try {
-    req.user = jwt.verify(bearer, process.env.JWT_SECRET!);
-    next();
-  } catch (e) {
-    res.status(403).json({ error: "token expired or invalid" });
-  }
+export function auth(req: any, res: any, next: any) {
+  const b = req.headers.authorization?.split(" ")[1];
+  if (!b) return res.status(401).json({ error: "missing bearer" });
+  try { req.user = jwt.verify(b, process.env.JWT_SECRET!); next(); }
+  catch { res.status(403).json({ error: "expired or invalid" }); }
 }
-
-export function requireAdmin(req: any, res: any, next: any) {
+export function admin(req: any, res: any, next: any) {
   if (req.user.role !== "admin") return res.status(403).json({ error: "admin only" });
   next();
 }
-EOF
-
-  cat > router.ts << 'EOF'
-import { authMiddleware, requireAdmin } from "./middleware";
-import { UserController } from "./controller";
-
-export function setupRoutes(app: any) {
-  app.get("/users", authMiddleware, UserController.list);
-  app.get("/users/:id", authMiddleware, UserController.get);
-  app.post("/users", authMiddleware, requireAdmin, UserController.create);
-  app.patch("/users/:id", authMiddleware, UserController.update);
-  app.delete("/users/:id", authMiddleware, requireAdmin, UserController.delete);
+TSEOF
+  cat > router.ts << 'TSEOF'
+import { auth, admin } from "./mw";
+import { UC } from "./ctrl";
+export function routes(app: any) {
+  app.get("/users", auth, UC.list);
+  app.get("/users/:id", auth, UC.get);
+  app.post("/users", auth, admin, UC.create);
+  app.patch("/users/:id", auth, UC.update);
+  app.delete("/users/:id", auth, admin, UC.delete);
 }
-EOF
-
-  cat > controller.ts << 'EOF'
+TSEOF
+  cat > ctrl.ts << 'TSEOF'
 import { z } from "zod";
-
-const CreateUser = z.object({ email: z.string().email(), name: z.string().min(1) });
-const UpdateUser = z.object({ email: z.string().email().optional(), name: z.string().optional() });
-
-export class UserController {
-  static async list(req: any, res: any) {
-    const { page = 1, limit = 20 } = req.query;
-    const users = await db.query("SELECT * FROM users LIMIT $1 OFFSET $2", [limit, (page - 1) * limit]);
-    const total = await db.query("SELECT COUNT(*) FROM users");
-    res.json({ data: users, total: total[0].count, page, limit });
-  }
-  static async get(req: any, res: any) {
-    const user = await db.query("SELECT * FROM users WHERE id = $1", [req.params.id]);
-    if (!user) return res.status(404).json({ error: "user not found" });
-    res.json(user);
-  }
-  static async create(req: any, res: any) {
-    const body = CreateUser.parse(req.body);
-    const user = await db.query("INSERT INTO users (email, name) VALUES ($1, $2) RETURNING *", [body.email, body.name]);
-    res.status(201).json(user);
-  }
-  static async update(req: any, res: any) {
-    const body = UpdateUser.parse(req.body);
-    const user = await db.query("UPDATE users SET email = COALESCE($1, email), name = COALESCE($2, name) WHERE id = $3 RETURNING *", [body.email, body.name, req.params.id]);
-    res.json(user);
-  }
-  static async delete(req: any, res: any) {
-    await db.query("DELETE FROM users WHERE id = $1", [req.params.id]);
-    res.status(204).send();
-  }
+const Create = z.object({ email: z.string().email(), name: z.string().min(1) });
+const Update = z.object({ email: z.string().email().optional(), name: z.string().optional() });
+export class UC {
+  static async list(req: any, res: any) { const {page=1,limit=20}=req.query; const u=await db.query("SELECT * FROM users LIMIT $1 OFFSET $2",[limit,(page-1)*limit]); res.json({data:u,page,limit}); }
+  static async get(req: any, res: any) { const u=await db.query("SELECT * FROM users WHERE id=$1",[req.params.id]); if(!u) return res.status(404).json({error:"not found"}); res.json(u); }
+  static async create(req: any, res: any) { const b=Create.parse(req.body); res.status(201).json(await db.query("INSERT INTO users (email,name) VALUES ($1,$2) RETURNING *",[b.email,b.name])); }
+  static async update(req: any, res: any) { const b=Update.parse(req.body); res.json(await db.query("UPDATE users SET email=COALESCE($1,email),name=COALESCE($2,name) WHERE id=$3 RETURNING *",[b.email,b.name,req.params.id])); }
+  static async delete(req: any, res: any) { await db.query("DELETE FROM users WHERE id=$1",[req.params.id]); res.status(204).send(); }
 }
-EOF
-
-  git add . && git commit -q -m "JWT auth + zod validation + pagination"
-
-  run_severity_check "${dir}" "red" "3-file interleaved — session vs JWT auth rewrite"
-}
-
-# ─── GREEN: New file, no overlap ─────────────────────────────────
-scenario_new_file() {
-  local dir
-  dir=$(setup_repo "new-file")
-
-  echo "existing" > existing.txt
-  git add . && git commit -q -m "initial"
-
-  git clone -q --bare "${dir}" "${dir}-remote"
-  git remote add origin "${dir}-remote"
-  git push -q -u origin main
-
-  # Remote adds a different new file
-  local clone_dir="${dir}-clone"
-  git clone -q "${dir}-remote" "${clone_dir}"
-  cd "${clone_dir}"
-  echo "remote new file" > remote-new.txt
-  git add . && git commit -q -m "add remote file"
-  git push -q origin main
-
-  # Local adds its own new file
-  cd "${dir}"
-  git fetch -q origin
-  echo "local new file" > local-new.txt
-  git add . && git commit -q -m "add local file"
-
-  run_severity_check "${dir}" "green" "new files — no overlap possible"
+TSEOF
+  git add -A && git commit -q -m "JWT + zod + pagination"
+  check "red" "3-file interleaved — session vs JWT rewrite"
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# RUN ALL SCENARIOS
+# RUN
 # ═══════════════════════════════════════════════════════════════════
 
 echo ""
-echo -e "${BOLD}  ╔═══════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}  ║     CONFLICTBENCH v1 — NoConflict         ║${RESET}"
-echo -e "${BOLD}  ╚═══════════════════════════════════════════╝${RESET}"
+echo -e "${BOLD}  ╔═══════════════════════════════════════════╗${RST}"
+echo -e "${BOLD}  ║     CONFLICTBENCH v1 — NoConflict         ║${RST}"
+echo -e "${BOLD}  ╚═══════════════════════════════════════════╝${RST}"
+echo ""
+echo -e "${DIM}  workspace: ${BENCH_DIR}${RST}"
 echo ""
 
-echo -e "${DIM}  workspace: ${BENCH_DIR}${RESET}"
+echo -e "  ${G}── GREEN (should classify as safe) ──${RST}"
+s01_clean_push
+s02_different_files
+s03_whitespace
+s04_new_files
+s05_trivial_import
 echo ""
 
-# GREEN scenarios
-echo -e "  ${GREEN}── GREEN (should classify as safe) ──${RESET}"
-scenario_clean_push
-scenario_different_files
-scenario_trivial_import
-scenario_whitespace
-scenario_new_file
+echo -e "  ${Y}── YELLOW (should warn, not block) ──${RST}"
+s06_same_function
+s07_config_clash
+s08_migration
 echo ""
 
-# YELLOW scenarios
-echo -e "  ${YELLOW}── YELLOW (should warn, not block) ──${RESET}"
-scenario_same_function
-scenario_config_overlap
-scenario_migration_conflict
-echo ""
-
-# RED scenarios
-echo -e "  ${RED}── RED (should hard-stop) ──${RESET}"
-scenario_large_refactor
-scenario_diverged_history
-scenario_interleaved_logic
+echo -e "  ${R}── RED (should hard-stop) ──${RST}"
+s09_large_refactor
+s10_diverged_8files
+s11_interleaved_api
 echo ""
 
 # ═══════════════════════════════════════════════════════════════════
 # RESULTS
 # ═══════════════════════════════════════════════════════════════════
 
-echo -e "  ${BOLD}─── RESULTS ───${RESET}"
+echo -e "  ${BOLD}─── RESULTS ───${RST}"
 echo ""
-echo -e "  ${GREEN}${PASS}${RESET} passed  ${RED}${FAIL}${RESET} failed  ${DIM}${TOTAL} total${RESET}"
+echo -e "  ${G}${PASS}${RST} passed  ${R}${FAIL}${RST} failed  ${DIM}${TOTAL} total${RST}"
 
 SCORE=$(awk "BEGIN {printf \"%.1f\", (${PASS}/${TOTAL})*100}")
-echo -e "  score: ${BOLD}${SCORE}%${RESET}"
+echo -e "  score: ${BOLD}${SCORE}%${RST}"
 echo ""
 
 if [ "${FAIL}" -eq 0 ]; then
-  echo -e "  ${GREEN}${BOLD}PERFECT SCORE.${RESET} ${DIM}${TOTAL}/${TOTAL} conflicts classified correctly.${RESET}"
+  echo -e "  ${G}${BOLD}PERFECT SCORE.${RST} ${DIM}${TOTAL}/${TOTAL} conflicts classified correctly.${RST}"
 else
-  echo -e "  ${YELLOW}${FAIL} misclassifications.${RESET} ${DIM}review scenarios above.${RESET}"
+  echo -e "  ${Y}${FAIL} misclassifications.${RST} ${DIM}review scenarios above.${RST}"
 fi
 
 echo ""
 
-# Write JSON results
+# Write JSON
+RESULTS_FILE="${BENCH_DIR}/results.json"
 echo "[" > "${RESULTS_FILE}"
 for i in "${!SCENARIOS[@]}"; do
-  if [ "$i" -gt 0 ]; then echo "," >> "${RESULTS_FILE}"; fi
+  [ "$i" -gt 0 ] && echo "," >> "${RESULTS_FILE}"
   echo "  ${SCENARIOS[$i]}" >> "${RESULTS_FILE}"
 done
 echo "]" >> "${RESULTS_FILE}"
 
-echo -e "  ${DIM}results: ${RESULTS_FILE}${RESET}"
+echo -e "  ${DIM}results: ${RESULTS_FILE}${RST}"
 echo ""
 
 # Cleanup
 rm -rf "${BENCH_DIR}"
 
-# Exit code
 [ "${FAIL}" -eq 0 ] && exit 0 || exit 1

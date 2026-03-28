@@ -2,6 +2,7 @@ import chalk from "chalk";
 import { isTrialActive, trialDaysLeft, hasApiKey } from "../config/store.js";
 import { getGit, getCurrentBranch } from "../git/branch-scanner.js";
 import { loadStats, weeklyStats } from "../proof/stats.js";
+import { getPlan, getExpiresAt, getLicenseKey } from "../billing/license.js";
 import { brand, printBanner, line, dim, receipt, warn, danger } from "../ui/brand.js";
 
 export async function status(flags: { week?: boolean; trial?: boolean }): Promise<void> {
@@ -39,15 +40,29 @@ export async function status(flags: { week?: boolean; trial?: boolean }): Promis
     dim(`${gitStatus.files.length} modified files.`);
   }
 
-  if (!isTrialActive()) {
-    console.log("");
-    warn("trial's over. nc activate for $29/mo.");
-  } else {
-    const days = trialDaysLeft();
-    if (days <= 7) {
-      console.log("");
-      dim(`trial: ${days} day${days === 1 ? "" : "s"} left.`);
+  // ─── Plan status ──────────────────────────────────
+  const plan = getPlan();
+  const hasLicense = !!getLicenseKey();
+
+  console.log("");
+  if (plan === "pro" && hasLicense) {
+    console.log(brand.ACID("  plan: ") + brand.ACID.bold("PRO"));
+    const expires = getExpiresAt();
+    if (expires) {
+      const expDate = new Date(expires).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      dim(`cancels: ${expDate}`);
     }
+  } else if (isTrialActive()) {
+    const days = trialDaysLeft();
+    console.log(brand.WARN("  plan: ") + brand.BONE.bold("FREE (trial)"));
+    dim(`${days} day${days === 1 ? "" : "s"} left. nc upgrade for $29/mo.`);
+  } else {
+    console.log(brand.SHADOW("  plan: ") + brand.BONE.bold("FREE"));
+    warn("trial's over. nc upgrade for $29/mo.");
   }
 
   console.log("");
@@ -108,7 +123,7 @@ function showTrial(): void {
   } else {
     console.log("");
     warn("trial's over.");
-    console.log(brand.BONE("  want your weapon back? $29/mo → nc activate"));
+    console.log(brand.BONE("  want your weapon back? $29/mo → nc upgrade"));
   }
 
   console.log("");

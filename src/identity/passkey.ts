@@ -1,203 +1,99 @@
 import chalk from "chalk";
-import { createServer } from "node:http";
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
+import { execSync } from "node:child_process";
+import os from "node:os";
 import { config } from "../config/store.js";
 import type { NcIdentity } from "../config/store.js";
 
-const AIRLOCK_IDENTITY_URL =
-  process.env.AIRLOCK_IDENTITY_URL || "https://id.airlock.so";
+// ─── Keychain helpers (macOS only) ──────────────────────────────────────────
+
+const KEYCHAIN_SERVICE = "noconflict-identity";
+const KEYCHAIN_ACCOUNT = "device-credential";
+
+function keychainStore(credentialId: string): void {
+  if (process.platform !== "darwin") return;
+  try {
+    execSync(
+      `security add-generic-password -U -s "${KEYCHAIN_SERVICE}" -a "${KEYCHAIN_ACCOUNT}" -w "${credentialId}"`,
+      { stdio: "ignore" }
+    );
+  } catch {
+    // silently degrade — conf store is the primary
+  }
+}
+
+function keychainRead(): string | null {
+  if (process.platform !== "darwin") return null;
+  try {
+    const result = execSync(
+      `security find-generic-password -s "${KEYCHAIN_SERVICE}" -a "${KEYCHAIN_ACCOUNT}" -w`,
+      { stdio: ["ignore", "pipe", "ignore"] }
+    );
+    return result.toString().trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+// ─── Device fingerprint ──────────────────────────────────────────────────────
+
+function buildUserId(salt: string): string {
+  const raw = `${os.hostname()}::${os.userInfo().username}::${salt}`;
+  return createHash("sha256").update(raw).digest("hex");
+}
+
+// ─── Public API ──────────────────────────────────────────────────────────────
 
 /**
- * Register a passkey identity via browser-based WebAuthn ceremony.
+ * Register a local passkey identity.
  *
- * Flow:
- * 1. Start local HTTP server on random port
- * 2. Open browser to Airlock identity service with callback URL
- * 3. User touches biometric (Face ID, Touch ID, Windows Hello)
- * 4. Identity service posts credential back to local server
- * 5. Store credential locally, close server
- *
- * Zero forms. Zero email. One touch.
+ * No browser, no server, no network.
+ * Generates a unique credential tied to this device + user and stores it in:
+ *   1. The Conf store (cross-platform)
+ *   2. macOS system keychain (backup/verification on macOS)
  */
 export async function registerPasskey(): Promise<NcIdentity | null> {
-  const challenge = randomBytes(32).toString("base64url");
+  const salt = randomBytes(16).toString("hex");
+  const credentialId = randomUUID();
+  const userId = buildUserId(salt);
+  const deviceName = os.hostname();
 
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      // CORS for the identity service callback
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  const identity: NcIdentity = {
+    credentialId,
+    userId,
+    deviceName,
+    createdAt: new Date().toISOString(),
+  };
 
-      if (req.method === "OPTIONS") {
-        res.writeHead(204);
-        res.end();
-        return;
-      }
+  // Primary store
+  config.set("identity", identity);
 
-      if (req.method === "POST" && req.url === "/callback") {
-        let body = "";
-        req.on("data", (chunk: Buffer) => {
-          body += chunk.toString();
-        });
-        req.on("end", () => {
-          try {
-            const credential = JSON.parse(body) as NcIdentity;
+  // Backup: macOS keychain
+  keychainStore(credentialId);
 
-            config.set("identity", credential);
-
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ status: "ok" }));
-
-            server.close();
-            resolve(credential);
-          } catch {
-            res.writeHead(400);
-            res.end("bad request");
-          }
-        });
-        return;
-      }
-
-      // Success page after passkey registration
-      if (req.method === "GET" && req.url === "/success") {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(`
-          <html>
-            <body style="background:#111;color:#fff;font-family:monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0">
-              <div style="text-align:center">
-                <h1>☠ locked in.</h1>
-                <p style="color:#888">you can close this tab.</p>
-              </div>
-            </body>
-          </html>
-        `);
-        return;
-      }
-
-      res.writeHead(404);
-      res.end();
-    });
-
-    server.listen(0, "127.0.0.1", () => {
-      const addr = server.address();
-      if (!addr || typeof addr === "string") {
-        resolve(null);
-        return;
-      }
-      const port = addr.port;
-      const callbackUrl = `http://127.0.0.1:${port}/callback`;
-      const successUrl = `http://127.0.0.1:${port}/success`;
-
-      const registerUrl =
-        `${AIRLOCK_IDENTITY_URL}/register` +
-        `?challenge=${challenge}` +
-        `&callback=${encodeURIComponent(callbackUrl)}` +
-        `&success=${encodeURIComponent(successUrl)}` +
-        `&source=noconflict`;
-
-      // Open browser
-      const openCmd =
-        process.platform === "darwin"
-          ? "open"
-          : process.platform === "win32"
-            ? "start"
-            : "xdg-open";
-
-      import("node:child_process").then(({ exec }) => {
-        exec(`${openCmd} "${registerUrl}"`);
-      });
-
-      // Timeout after 2 minutes
-      setTimeout(() => {
-        server.close();
-        resolve(null);
-      }, 120_000);
-    });
-  });
+  return identity;
 }
 
 /**
- * Verify an existing passkey identity via browser-based WebAuthn ceremony.
- * Same flow as register, but hits /verify endpoint.
+ * Verify the stored identity against this device.
+ *
+ * Checks that the credentialId in conf matches what's in the keychain
+ * (macOS) or simply that the conf entry exists (Linux/Windows).
+ * Returns true if identity is intact.
  */
 export async function verifyPasskey(): Promise<boolean> {
   const identity = config.get("identity");
   if (!identity?.credentialId) return false;
 
-  const challenge = randomBytes(32).toString("base64url");
+  if (process.platform === "darwin") {
+    const stored = keychainRead();
+    // If keychain has nothing yet (first run after migration), trust conf
+    if (stored === null) return true;
+    return stored === identity.credentialId;
+  }
 
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-      if (req.method === "OPTIONS") {
-        res.writeHead(204);
-        res.end();
-        return;
-      }
-
-      if (req.method === "POST" && req.url === "/callback") {
-        let body = "";
-        req.on("data", (chunk: Buffer) => {
-          body += chunk.toString();
-        });
-        req.on("end", () => {
-          try {
-            const result = JSON.parse(body) as { verified: boolean };
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ status: "ok" }));
-            server.close();
-            resolve(result.verified);
-          } catch {
-            res.writeHead(400);
-            res.end();
-            server.close();
-            resolve(false);
-          }
-        });
-        return;
-      }
-
-      res.writeHead(404);
-      res.end();
-    });
-
-    server.listen(0, "127.0.0.1", () => {
-      const addr = server.address();
-      if (!addr || typeof addr === "string") {
-        resolve(false);
-        return;
-      }
-      const port = addr.port;
-      const callbackUrl = `http://127.0.0.1:${port}/callback`;
-
-      const verifyUrl =
-        `${AIRLOCK_IDENTITY_URL}/verify` +
-        `?challenge=${challenge}` +
-        `&credential=${identity.credentialId}` +
-        `&callback=${encodeURIComponent(callbackUrl)}` +
-        `&source=noconflict`;
-
-      const openCmd =
-        process.platform === "darwin"
-          ? "open"
-          : process.platform === "win32"
-            ? "start"
-            : "xdg-open";
-
-      import("node:child_process").then(({ exec }) => {
-        exec(`${openCmd} "${verifyUrl}"`);
-      });
-
-      setTimeout(() => {
-        server.close();
-        resolve(false);
-      }, 60_000);
-    });
-  });
+  // Non-macOS: conf store is the only source of truth
+  return true;
 }
 
 /**
